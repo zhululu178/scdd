@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<#include "/common/header.ftl">
-	<link rel="stylesheet" href="${webRoot}/plugins/layui/css/layui.css" media="all" />
-	<link rel="stylesheet" href="${webRoot}/plugins/font-awesome/css/font-awesome.min.css">
 	<body>
 		<div style="margin: 15px;">
 			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">

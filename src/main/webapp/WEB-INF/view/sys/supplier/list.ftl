@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<#include "/common/header.ftl">
-	<link rel="stylesheet" href="${webRoot}/plugins/layui/css/layui.css" media="all" />
 	<link rel="stylesheet" href="${webRoot}/css/global.css" media="all">
-	<link rel="stylesheet" href="${webRoot}/plugins/font-awesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="${webRoot}/css/table.css" />
 	<body>
 		<div class="admin-main">

@@ -8,3 +8,5 @@
 	<meta name="format-detection" content="telephone=no">
 </head>
 <script type="text/javascript" src="${webRoot}/js/jquery-3.2.0.min.js"></script>
+<link rel="stylesheet" href="${webRoot}/plugins/layui/css/layui.css" media="all" />
+<link rel="stylesheet" href="${webRoot}/plugins/font-awesome/css/font-awesome.min.css">

@@ -29,7 +29,7 @@
 					</div>
 					<ul class="layui-nav admin-header-item">
 						<li class="layui-nav-item">
-							<a href="javascript:;">清除缓存1</a>
+							<a href="javascript:;">清除缓存</a>
 						</li>
 						<li class="layui-nav-item">
 							<a href="javascript:;">浏览网站</a>
