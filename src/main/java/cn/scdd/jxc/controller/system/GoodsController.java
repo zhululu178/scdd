@@ -17,6 +17,7 @@ import cn.scdd.jxc.entity.ScddGoods;
 import cn.scdd.jxc.entity.ScddSupplier;
 import cn.scdd.jxc.service.goods.GoodsService;
 import cn.scdd.jxc.service.supplier.SupplierService;
+import cn.scdd.jxc.util.MessageContext;
 import cn.scdd.jxc.util.PageVo;
 
 import com.github.pagehelper.Page;
@@ -31,7 +32,7 @@ public class GoodsController extends BaseController {
 	private GoodsService goodsService;
 	
 	/**
-	 * »áÔ±ĞÂÔöÒ³Ãæ
+	 * ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.GET)
@@ -43,28 +44,40 @@ public class GoodsController extends BaseController {
 	}
 	
 	/**
-	 * »áÔ±ĞŞ¸ÄÒ³Ãæ
+	 * ï¿½ï¿½Ô±ï¿½Ş¸ï¿½Ò³ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.GET)
 	public ModelAndView edit(@RequestParam int id) {
+		ScddGoods goods = this.goodsService.searchGoodsById(id);
+		return this.initEditPage(goods, false);
+	}
+	
+	/**
+	 * åˆå§‹åŒ–æ–°å¢/ç¼–è¾‘é¡µé¢
+	 * @param modelAndView
+	 * @param hasErr
+	 */
+	private ModelAndView initEditPage(ScddGoods goods, boolean hasErr) {
 		ModelAndView modelAndView = new ModelAndView("sys/goods/add");
 		List<ScddSupplier> supplierList = this.supplierService.searchBySupplier(null);
-		modelAndView.addObject("goods", this.goodsService.searchGoodsById(id));
+		modelAndView.addObject("goods", goods);
 		modelAndView.addObject("supplierList", supplierList);
+		if(hasErr) {
+			modelAndView.addObject(ERR_MSG, MessageContext.GOODS_ERR_MSG_EXIST);
+		}
 		return modelAndView;
 	}
 	
 	/**
-	 * »áÔ±±£´æ
+	 * ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public ModelAndView save(ScddGoods goods) {
 		ModelAndView modelAndView = null;
-		if(this.goodsService.checkGoodsExists(goods)) {//»áÔ±ÒÑ¾­´æÔÚ
-			modelAndView = new ModelAndView("sys/goods/add");
-			modelAndView.addObject("goods", goods);
+		if(this.goodsService.checkGoodsExists(goods)) {//ï¿½ï¿½Ô±ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
+			modelAndView = this.initEditPage(goods, true);
 		} else {
 			goodsService.saveGoods(goods);
 			modelAndView = new ModelAndView("sys/goods/list");
@@ -74,7 +87,7 @@ public class GoodsController extends BaseController {
 	}
 	
 	/**
-	 * »áÔ±ÁĞ±í
+	 * ï¿½ï¿½Ô±ï¿½Ğ±ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/list")
@@ -85,7 +98,7 @@ public class GoodsController extends BaseController {
 	}
 	
 	/**
-	 * »áÔ±²éÑ¯
+	 * ï¿½ï¿½Ô±ï¿½ï¿½Ñ¯
 	 * @return
 	 */
 	@ResponseBody

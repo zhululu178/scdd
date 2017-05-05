@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.scdd.jxc.controller.BaseController;
 import cn.scdd.jxc.entity.ScddUser;
 import cn.scdd.jxc.service.user.UserService;
+import cn.scdd.jxc.util.MessageContext;
 import cn.scdd.jxc.util.PageVo;
 
 import com.github.pagehelper.Page;
@@ -25,7 +26,7 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 	/**
-	 * ÓÃ»§ÐÂÔöÒ³Ãæ
+	 * ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.GET)
@@ -35,7 +36,7 @@ public class UserController extends BaseController {
 	}
 	
 	/**
-	 * ÓÃ»§ÐÞ¸ÄÒ³Ãæ
+	 * ï¿½Ã»ï¿½ï¿½Þ¸ï¿½Ò³ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.GET)
@@ -46,20 +47,21 @@ public class UserController extends BaseController {
 	}
 	
 	/**
-	 * ÓÃ»§±£´æ
+	 * ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public ModelAndView save(ScddUser user) {
 		ModelAndView modelAndView = null;
-		if("on".equals(user.getAgentFlag())) {//´úÀí
+		if("on".equals(user.getAgentFlag())) {//ï¿½ï¿½ï¿½ï¿½
 			user.setAgentFlag("1");
 		} else {
 			user.setAgentFlag("0");
 		}
-		if(userService.checkUserExists(user)) {//ÓÃ»§ÒÑ¾­´æÔÚ
+		if(userService.checkUserExists(user)) {//ï¿½Ã»ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
 			modelAndView = new ModelAndView("sys/user/add");
 			modelAndView.addObject("user", user);
+			modelAndView.addObject(ERR_MSG, MessageContext.USER_ERR_MSG_EXIST);
 		} else {
 			userService.saveUser(user);
 			modelAndView = new ModelAndView("sys/user/list");	
@@ -69,7 +71,7 @@ public class UserController extends BaseController {
 	}
 	
 	/**
-	 * ÓÃ»§ÁÐ±í
+	 * ï¿½Ã»ï¿½ï¿½Ð±ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/list")
@@ -80,7 +82,7 @@ public class UserController extends BaseController {
 	}
 	
 	/**
-	 * ÓÃ»§²éÑ¯
+	 * ï¿½Ã»ï¿½ï¿½ï¿½Ñ¯
 	 * @return
 	 */
 	@ResponseBody

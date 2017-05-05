@@ -61,7 +61,7 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	public boolean checkMemberExists(ScddMember record) {
-		// TODO Auto-generated method stub
-		return false;
+		int count =  this.scddMemberMapper.checkMemberExists(record);
+		return count > 0?true:false;
 	}
 }

@@ -31,4 +31,6 @@ public interface ScddGoodsMapper {
     int updateByPrimaryKeySelective(ScddGoods record);
 
     int updateByPrimaryKey(ScddGoods record);
+    
+    int checkGoodsExists(ScddGoods record);
 }

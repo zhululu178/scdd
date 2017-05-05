@@ -365,4 +365,10 @@
       MODIFIER_ID = #{modifierId,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  <select id="checkMemberExists" parameterType="cn.scdd.jxc.entity.ScddMember" resultType="java.lang.Integer" >
+    select count(*) from scdd_member where phone = #{phone,jdbcType=VARCHAR} 
+    <if test="id != null" >
+      and id != #{id,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

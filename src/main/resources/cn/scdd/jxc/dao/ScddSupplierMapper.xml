@@ -335,4 +335,10 @@
       MODIFIER_ID = #{modifierId,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  <select id="checkSupplierExists" parameterType="cn.scdd.jxc.entity.ScddSupplier" resultType="java.lang.Integer" >
+    select count(*) from scdd_supplier where (phone = #{phone,jdbcType=VARCHAR} or name = #{name,jdbcType=VARCHAR})
+    <if test="id != null" >
+      and id != #{id,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>

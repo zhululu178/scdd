@@ -16,6 +16,7 @@ import cn.scdd.jxc.controller.BaseController;
 import cn.scdd.jxc.entity.ScddMember;
 import cn.scdd.jxc.service.member.MemberService;
 import cn.scdd.jxc.util.Context.MemberLevelEnum;
+import cn.scdd.jxc.util.MessageContext;
 import cn.scdd.jxc.util.PageVo;
 
 import com.github.pagehelper.Page;
@@ -25,11 +26,11 @@ import com.github.pagehelper.Page;
 public class MemberController extends BaseController {
 	@Autowired
 	private MemberService memberService;
-	/**»áÔ±µÈ¼¶ÁĞ±í*/
+	/**ï¿½ï¿½Ô±ï¿½È¼ï¿½ï¿½Ğ±ï¿½*/
 	private Map<String, String> memberLevel = MemberLevelEnum.getKeyValues();
 	
 	/**
-	 * »áÔ±ĞÂÔöÒ³Ãæ
+	 * ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.GET)
@@ -40,27 +41,39 @@ public class MemberController extends BaseController {
 	}
 	
 	/**
-	 * »áÔ±ĞŞ¸ÄÒ³Ãæ
+	 * ï¿½ï¿½Ô±ï¿½Ş¸ï¿½Ò³ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.GET)
 	public ModelAndView edit(@RequestParam int id) {
+		ScddMember member = this.memberService.searchMemberById(id);
+		return this.initEditPage(member, false);
+	}
+	
+	/**
+	 * åˆå§‹åŒ–æ–°å¢/ç¼–è¾‘é¡µé¢
+	 * @param modelAndView
+	 * @param hasErr
+	 */
+	private ModelAndView initEditPage(ScddMember member, boolean hasErr) {
 		ModelAndView modelAndView = new ModelAndView("sys/member/add");
-		modelAndView.addObject("member", this.memberService.searchMemberById(id));
+		modelAndView.addObject("member", member);
 		modelAndView.addObject("levels", memberLevel);
+		if(hasErr) {
+			modelAndView.addObject(ERR_MSG, MessageContext.MEMBER_ERR_MSG_EXIST);
+		}
 		return modelAndView;
 	}
 	
 	/**
-	 * »áÔ±±£´æ
+	 * ï¿½ï¿½Ô±ï¿½ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public ModelAndView save(ScddMember member) {
 		ModelAndView modelAndView = null;
-		if(this.memberService.checkMemberExists(member)) {//»áÔ±ÒÑ¾­´æÔÚ
-			modelAndView = new ModelAndView("sys/member/add");
-			modelAndView.addObject("member", member);
+		if(this.memberService.checkMemberExists(member)) {//ï¿½ï¿½Ô±ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
+			modelAndView = this.initEditPage(member, true);
 		} else {
 			memberService.saveMember(member);
 			modelAndView = new ModelAndView("sys/member/list");
@@ -70,7 +83,7 @@ public class MemberController extends BaseController {
 	}
 	
 	/**
-	 * »áÔ±ÁĞ±í
+	 * ï¿½ï¿½Ô±ï¿½Ğ±ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/list")
@@ -81,7 +94,7 @@ public class MemberController extends BaseController {
 	}
 	
 	/**
-	 * »áÔ±²éÑ¯
+	 * ï¿½ï¿½Ô±ï¿½ï¿½Ñ¯
 	 * @return
 	 */
 	@ResponseBody

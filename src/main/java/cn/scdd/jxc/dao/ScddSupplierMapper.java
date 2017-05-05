@@ -31,4 +31,6 @@ public interface ScddSupplierMapper {
     int updateByPrimaryKeySelective(ScddSupplier record);
 
     int updateByPrimaryKey(ScddSupplier record);
+    
+    int checkSupplierExists(ScddSupplier record);
 }

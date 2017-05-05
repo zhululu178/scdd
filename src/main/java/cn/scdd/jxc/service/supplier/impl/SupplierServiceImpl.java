@@ -55,7 +55,7 @@ public class SupplierServiceImpl implements SupplierService {
 	}
 
 	public boolean checkSupplierExists(ScddSupplier record) {
-		// TODO Auto-generated method stub
-		return false;
+		int count =  this.scddSupplierMapper.checkSupplierExists(record);
+		return count > 0?true:false;
 	}
 }

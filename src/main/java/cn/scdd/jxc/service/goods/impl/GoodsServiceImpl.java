@@ -53,6 +53,7 @@ public class GoodsServiceImpl implements GoodsService {
 	}
 
 	public boolean checkGoodsExists(ScddGoods record) {
-		return false;
+		int count =  this.scddGoodsMapper.checkGoodsExists(record);
+		return count > 0?true:false;
 	}
 }

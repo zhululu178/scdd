@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.scdd.jxc.controller.BaseController;
 import cn.scdd.jxc.entity.ScddSupplier;
 import cn.scdd.jxc.service.supplier.SupplierService;
+import cn.scdd.jxc.util.MessageContext;
 import cn.scdd.jxc.util.PageVo;
 
 import com.github.pagehelper.Page;
@@ -25,7 +26,7 @@ public class SupplierController extends BaseController {
 	@Autowired
 	private SupplierService supplierService;
 	/**
-	 * ¹©Ó¦ÉÌÐÂÔöÒ³Ãæ
+	 * ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/add",method=RequestMethod.GET)
@@ -35,7 +36,7 @@ public class SupplierController extends BaseController {
 	}
 	
 	/**
-	 * ¹©Ó¦ÉÌÐÞ¸ÄÒ³Ãæ
+	 * ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Þ¸ï¿½Ò³ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/edit",method=RequestMethod.GET)
@@ -46,15 +47,16 @@ public class SupplierController extends BaseController {
 	}
 	
 	/**
-	 * ¹©Ó¦ÉÌ±£´æ
+	 * ï¿½ï¿½Ó¦ï¿½Ì±ï¿½ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public ModelAndView save(ScddSupplier supplier) {
 		ModelAndView modelAndView = null;
-		if(supplierService.checkSupplierExists(supplier)) {//¹©Ó¦ÉÌÒÑ¾­´æÔÚ
+		if(supplierService.checkSupplierExists(supplier)) {//ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½
 			modelAndView = new ModelAndView("sys/supplier/add");
 			modelAndView.addObject("supplier", supplier);
+			modelAndView.addObject(ERR_MSG, MessageContext.SUPPLIER_ERR_MSG_EXIST);
 		} else {
 			supplierService.saveSupplier(supplier);
 			modelAndView = new ModelAndView("sys/supplier/list");
@@ -64,7 +66,7 @@ public class SupplierController extends BaseController {
 	}
 	
 	/**
-	 * ¹©Ó¦ÉÌÁÐ±í
+	 * ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Ð±ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/list")
@@ -75,7 +77,7 @@ public class SupplierController extends BaseController {
 	}
 	
 	/**
-	 * ¹©Ó¦ÉÌ²éÑ¯
+	 * ï¿½ï¿½Ó¦ï¿½Ì²ï¿½Ñ¯
 	 * @return
 	 */
 	@ResponseBody

@@ -18,17 +18,19 @@ import freemarker.template.Template;
 public class BaseController {
 	@Autowired
 	protected FreeMarkerConfigurer freemarkerConfig;
-	/** ÇëÇó */
+	/** ï¿½ï¿½ï¿½ï¿½ */
 	protected HttpServletRequest request;
-	/** ÏìÓ¦ */
+	/** ï¿½ï¿½Ó¦ */
 	protected HttpServletResponse response;
-	/** »Ø»° */
+	/** ï¿½Ø»ï¿½ */
 	protected HttpSession session;
-	/** Ã¿Ò³Êı¾İ */	
-	protected final static int PAGESIZE = 10;
+	/** Ã¿Ò³ï¿½ï¿½ï¿½ */	
+	protected final static int PAGESIZE = 2;
+	/** é¡µé¢çš„å‡ºé”™æ¶ˆæ¯ */	
+	protected final static String ERR_MSG = "err_msg";
 	
 	/**
-	 * ÉèÖÃÇëÇó»ù±¾
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param request
 	 * @param response
 	 */
@@ -40,7 +42,7 @@ public class BaseController {
 	}
 	
 	/**
-	 * ¸ù¾İftlÄ£°å»ñµÃÄÚÈİ
+	 * ï¿½ï¿½ï¿½ftlÄ£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 * @param ftlTemplatePath
 	 * @param contents
 	 * @return
@@ -52,14 +54,14 @@ public class BaseController {
 			template = freemarkerConfig.getConfiguration().getTemplate(ftlTemplatePath);
 			result=FreeMarkerTemplateUtils.processTemplateIntoString(template, contents);
 		} catch (Exception e) {
-			System.out.println("FreemarkerÄ£°å´¦ÀíÊ§°Ü:" + ftlTemplatePath);
+			System.out.println("FreemarkerÄ£ï¿½å´¦ï¿½ï¿½Ê§ï¿½ï¿½:" + ftlTemplatePath);
 			e.printStackTrace();
 		}
 		return result;
 	}
 	
 	/**
-	 * ³õÊ¼»¯·ÖÒ³ĞÅÏ¢
+	 * ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½Ï¢
 	 */
 	protected void initPage() {
 		String pageNo = this.request.getParameter("pageNo");

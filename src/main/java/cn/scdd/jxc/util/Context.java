@@ -7,16 +7,16 @@ public class Context {
 	public final static String DATE_FORMAT = "yyyy-MM-dd";
 	
 	/**
-	 * »áÔ±µÈ¼¶
+	 * ï¿½ï¿½Ô±ï¿½È¼ï¿½
 	 */
 	public enum MemberLevelEnum {
-		NORMAL("1","ÆÕÍ¨»áÔ±");
+		NORMAL("1","æ™®é€šä¼šå‘˜");
 		/**code.*/
 		private final String code;
 		/**title.*/
 		private final String title;
 		/**
-		 * ¹¹Ôì·½·¨.
+		 * ï¿½ï¿½ï¿½ì·½ï¿½ï¿½.
 		  *@param code code
 		  *@param title title
 		 */
@@ -25,9 +25,9 @@ public class Context {
 			this.title=title;
 		}
 		/**
-		 * ¸ù¾Ý±àÂë»ñµÃÏà¹ØµÄÃ¶¾ÙÀàÐÍ.
+		 * ï¿½ï¿½Ý±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½.
 		 *
-		 * @param code ±àÂë
+		 * @param code ï¿½ï¿½ï¿½ï¿½
 		 * @return CityType
 		 */
 		public static MemberLevelEnum parse(String code) {
@@ -40,7 +40,7 @@ public class Context {
 		}
 
 		/**
-		 * »ñµÃ¼üÖµ¶Ô.
+		 * ï¿½ï¿½Ã¼ï¿½Öµï¿½ï¿½.
 		 * @return Map<String , String>
 		 */
 		public static Map<String , String> getKeyValues() {

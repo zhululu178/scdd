@@ -1,10 +1,12 @@
 package cn.scdd.jxc.dao;
 
-import cn.scdd.jxc.entity.ScddMember;
-import cn.scdd.jxc.entity.ScddMemberExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import cn.scdd.jxc.entity.ScddMember;
+import cn.scdd.jxc.entity.ScddMemberExample;
 
 @Repository("scddMemberMapper")
 public interface ScddMemberMapper {
@@ -29,4 +31,6 @@ public interface ScddMemberMapper {
     int updateByPrimaryKeySelective(ScddMember record);
 
     int updateByPrimaryKey(ScddMember record);
+    
+    int checkMemberExists(ScddMember record);
 }

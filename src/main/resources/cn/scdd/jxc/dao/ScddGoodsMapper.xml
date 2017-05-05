@@ -384,4 +384,10 @@
       MODIFIER_ID = #{modifierId,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+  <select id="checkGoodsExists" parameterType="cn.scdd.jxc.entity.ScddGoods" resultType="java.lang.Integer" >
+    select count(*) from scdd_goods where (name = #{name,jdbcType=VARCHAR} or short_name = #{shortName,jdbcType=VARCHAR})
+    <if test="id != null" >
+      and id != #{id,jdbcType=INTEGER}
+    </if>
+  </select>
 </mapper>
