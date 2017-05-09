@@ -1,15 +1,13 @@
-<%@ page language="java" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/layui/css/layui.css" media="all" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/plugins/font-awesome/css/font-awesome.min.css">
+	<#include "/common/header.ftl">
 	<body>
 		<div style="margin: 15px;">
 			<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
 				<legend>批量订单输入</legend>
 			</fieldset>
 
-			<form class="layui-form" action="${pageContext.request.contextPath}/order/import/save" method="POST">
+			<form class="layui-form" action="${webRoot}/order/import/save" method="POST">
 				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">交易日期</label>
@@ -32,7 +30,7 @@
 				</div>
 			</form>
 		</div>
-		<script type="text/javascript" src="${pageContext.request.contextPath}/plugins/layui/layui.js"></script>
+		<script type="text/javascript" src="${webRoot}/plugins/layui/layui.js"></script>
 		<script>
 			layui.use(['form', 'layedit', 'laydate'], function() {
 				var form = layui.form(),

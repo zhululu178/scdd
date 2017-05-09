@@ -12,4 +12,11 @@ public interface UserService {
 	public ScddUser searchUserById(int id);
 	
 	public boolean checkUserExists(ScddUser record);
+	
+	/**
+	 * 根据用户编码获得用户信息
+	 * @param code
+	 * @return
+	 */
+	public ScddUser searchByCode(String code);
 }

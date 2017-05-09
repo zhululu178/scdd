@@ -1,8 +1,11 @@
 package cn.scdd.jxc.controller.order;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +29,7 @@ public class OrderImportController {
 	}
 	
 	/**
-	 * ¶©µ¥µ¼Èë³õÊ¼»¯
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 	 * @return
 	 */
 	@RequestMapping(value="/index",method=RequestMethod.GET)
@@ -35,39 +38,48 @@ public class OrderImportController {
 		modelAndView.addObject("transDate", formatter.format(new Date()));
 		return modelAndView;
 	}
-	
+	public static void main(String[] args) {
+		//System.out.println("æ­å·å¸‚æ¡åºå¿è¿æ˜¥å—è·¯å»ºä¸šå¤§å¦1005/éƒ‘è‹å»º/13082857999/èŠéº»12ä¸ª/è±†æ²™12ä¸ª/å†¬ç¬‹6ä¸ª/è èœ6ä¸ª/154ï¼ˆ3ç‚¹ï¼‰ã€fiã€‘".split("/").length);
+        String input = "jdiwo3495jis90.5jsie4dss56djiw9";
+        String regex = "\\d+(\\.\\d+)?";
+        Pattern pattern =  Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        while(matcher.find())
+        {
+            System.out.println(matcher.group());
+        }
+	}
 	/**
-	 * ±£´æ¶©µ¥Êı¾İ
-	 * @param transDate ½»Ò×ÈÕÆÚ
-	 * @param orders ¶©µ¥ĞÅÏ¢
+	 * ï¿½ï¿½ï¿½æ¶©ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param transDate ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @param orders ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	 * @return
 	 */
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public ModelAndView save(String transDate, String orderDetails) {
 		ModelAndView modelAndView = null;
+		Date transDatet = null;
+		try {
+			transDatet = formatter.parse(transDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		if(!StringUtils.isEmpty(orderDetails)) {
 			String[] orderArr = orderDetails.split("\r\n");
-			for(int i=0;i<orderArr.length;i++) {
-				if(!StringUtils.isEmpty(orderArr[i])) {
-					//°üÀ¨¶©µ¥ĞÅÏ¢¡¢¶©µ¥ÉÌÆ·Ã÷Ï¸ºÍ¶©µ¥Êµ¼ÊÊÕ¿î½ğ¶î
-					String[] orderInfoArr = orderArr[i].split("\\|");
-					if(orderInfoArr.length == 3) {
-						String orderInfo = orderInfoArr[0];
-						String orderDetail = orderInfoArr[1];
-					} else {
-						modelAndView = new ModelAndView("order/import/index");
-						return modelAndView;
-					}
-				}
-			}
+			
 		}
 		modelAndView = new ModelAndView("order/import/list");
 		return modelAndView;
 	}
 	
-	private ScddOrder geneOrder(String orderInfo, String orderDetails, String actualAmout) {
+	/**
+	 * æ ¹æ®è¾“å…¥çš„ä¿¡æ¯äº§ç”Ÿè®¢å•
+	 * @param orderInfoArr
+	 * @return
+	 */
+	private ScddOrder geneOrder(String[] orderInfoArr) {
 		ScddOrder scddOrder = new ScddOrder();
-		scddOrder.setActualAmount(new BigDecimal(actualAmout));//Êµ¼ÊÊÕ¿î½ğ¶î
+		scddOrder.setActualAmount(new BigDecimal(11));//Êµï¿½ï¿½ï¿½Õ¿ï¿½ï¿½ï¿½
 		
 		return scddOrder;
 	}

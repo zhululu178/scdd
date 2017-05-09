@@ -2,6 +2,7 @@ package cn.scdd.jxc.entity;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class ScddOrder {
     private Integer id;
@@ -27,6 +28,8 @@ public class ScddOrder {
     private Date modifyDate;
 
     private Integer modifierId;
+    
+    private List<ScddOrderDetail> details;
 
     public Integer getId() {
         return id;
@@ -123,4 +126,12 @@ public class ScddOrder {
     public void setModifierId(Integer modifierId) {
         this.modifierId = modifierId;
     }
+
+	public List<ScddOrderDetail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<ScddOrderDetail> details) {
+		this.details = details;
+	}
 }

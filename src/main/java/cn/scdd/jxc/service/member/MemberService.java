@@ -12,4 +12,11 @@ public interface MemberService {
 	public ScddMember searchMemberById(int id);
 	
 	public boolean checkMemberExists(ScddMember record);
+	
+	/**
+	 * 根据会员电话查找会员信息
+	 * @param phone
+	 * @return
+	 */
+	public ScddMember searchMemberByPhone(String phone);
 }

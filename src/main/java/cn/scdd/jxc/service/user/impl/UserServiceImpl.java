@@ -60,4 +60,15 @@ public class UserServiceImpl implements UserService {
 		int count =  this.scddUserMapper.checkUserExists(record);
 		return count > 0?true:false;
 	}
+
+	public ScddUser searchByCode(String code) {
+		ScddUser user = new ScddUser();
+		user.setCode(code);
+		List<ScddUser> users = this.searchByUser(user);
+		if(users != null && users.size() != 1) {
+			return null;
+		} else {
+			return users.get(0);
+		}
+	}
 }

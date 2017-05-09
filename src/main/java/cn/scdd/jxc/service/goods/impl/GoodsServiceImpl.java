@@ -56,4 +56,20 @@ public class GoodsServiceImpl implements GoodsService {
 		int count =  this.scddGoodsMapper.checkGoodsExists(record);
 		return count > 0?true:false;
 	}
+	
+	/**
+	 * 根据商品简称查找商品信息
+	 * @param shortName
+	 * @return
+	 */
+	public ScddGoods searchGoodsByShortName(String shortName) {
+		ScddGoods goods = new ScddGoods();
+		goods.setShortName(shortName);
+		List<ScddGoods> goodses = this.searchByGoods(goods);
+		if(goodses != null && goodses.size() != 1) {
+			return null;
+		} else {
+			return goodses.get(0);
+		}
+	}
 }

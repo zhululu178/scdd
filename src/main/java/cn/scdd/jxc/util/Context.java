@@ -7,7 +7,42 @@ public class Context {
 	public final static String DATE_FORMAT = "yyyy-MM-dd";
 	
 	/**
-	 * ��Ա�ȼ�
+	 * 删除标记
+	 */
+	public enum DeleteFlagEnum {
+		NO("0","未删除"),
+		YES("1","删除");
+		/**code.*/
+		private final String code;
+		/**title.*/
+		private final String title;
+		/**
+		 * 构造方法
+		  *@param code code
+		  *@param title title
+		 */
+		DeleteFlagEnum(final String code,String title) {
+			this.code = code;
+			this.title=title;
+		}
+		
+		/***
+		 * @return  the code
+		 */
+		public String getCode() {
+			return this.code;
+		}
+
+		/**
+		 *@return  the title
+		 */
+		public String getTile() {
+			return title;
+		}
+	}
+	
+	/**
+	 * 会员级别
 	 */
 	public enum MemberLevelEnum {
 		NORMAL("1","普通会员");

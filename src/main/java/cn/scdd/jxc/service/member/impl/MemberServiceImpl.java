@@ -64,4 +64,20 @@ public class MemberServiceImpl implements MemberService {
 		int count =  this.scddMemberMapper.checkMemberExists(record);
 		return count > 0?true:false;
 	}
+	
+	/**
+	 * 根据会员电话查找会员信息
+	 * @param phone
+	 * @return
+	 */
+	public ScddMember searchMemberByPhone(String phone) {
+		ScddMember member = new ScddMember();
+		member.setPhone(phone);
+		List<ScddMember> members = this.searchByMember(member);
+		if(members != null && members.size() != 1) {
+			return null;
+		} else {
+			return members.get(0);
+		}
+	}
 }

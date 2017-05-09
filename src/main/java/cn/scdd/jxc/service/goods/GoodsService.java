@@ -12,4 +12,11 @@ public interface GoodsService {
 	public ScddGoods searchGoodsById(int id);
 	
 	public boolean checkGoodsExists(ScddGoods record);
+	
+	/**
+	 * 根据商品简称查找商品信息
+	 * @param shortName
+	 * @return
+	 */
+	public ScddGoods searchGoodsByShortName(String shortName);
 }
