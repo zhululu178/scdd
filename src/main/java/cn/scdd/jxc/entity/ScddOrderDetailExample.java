@@ -225,6 +225,66 @@ public class ScddOrderDetailExample {
             return (Criteria) this;
         }
 
+        public Criteria andGoodsIdIsNull() {
+            addCriterion("GOODS_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdIsNotNull() {
+            addCriterion("GOODS_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdEqualTo(Integer value) {
+            addCriterion("GOODS_ID =", value, "goodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdNotEqualTo(Integer value) {
+            addCriterion("GOODS_ID <>", value, "goodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdGreaterThan(Integer value) {
+            addCriterion("GOODS_ID >", value, "goodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("GOODS_ID >=", value, "goodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdLessThan(Integer value) {
+            addCriterion("GOODS_ID <", value, "goodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdLessThanOrEqualTo(Integer value) {
+            addCriterion("GOODS_ID <=", value, "goodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdIn(List<Integer> values) {
+            addCriterion("GOODS_ID in", values, "goodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdNotIn(List<Integer> values) {
+            addCriterion("GOODS_ID not in", values, "goodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdBetween(Integer value1, Integer value2) {
+            addCriterion("GOODS_ID between", value1, value2, "goodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("GOODS_ID not between", value1, value2, "goodsId");
+            return (Criteria) this;
+        }
+
         public Criteria andDiscountIsNull() {
             addCriterion("DISCOUNT is null");
             return (Criteria) this;

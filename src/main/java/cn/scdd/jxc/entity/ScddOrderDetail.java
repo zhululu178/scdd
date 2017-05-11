@@ -6,7 +6,7 @@ public class ScddOrderDetail {
     private Integer id;
 
     private Integer orderId;
-    
+
     private Integer goodsId;
 
     private BigDecimal discount;
@@ -29,6 +29,14 @@ public class ScddOrderDetail {
 
     public void setOrderId(Integer orderId) {
         this.orderId = orderId;
+    }
+
+    public Integer getGoodsId() {
+        return goodsId;
+    }
+
+    public void setGoodsId(Integer goodsId) {
+        this.goodsId = goodsId;
     }
 
     public BigDecimal getDiscount() {
@@ -54,12 +62,4 @@ public class ScddOrderDetail {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
-
-	public Integer getGoodsId() {
-		return goodsId;
-	}
-
-	public void setGoodsId(Integer goodsId) {
-		this.goodsId = goodsId;
-	}
 }

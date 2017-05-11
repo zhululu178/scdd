@@ -1,10 +1,12 @@
 package cn.scdd.jxc.dao;
 
-import cn.scdd.jxc.entity.ScddOrderDetail;
-import cn.scdd.jxc.entity.ScddOrderDetailExample;
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import cn.scdd.jxc.entity.ScddOrderDetail;
+import cn.scdd.jxc.entity.ScddOrderDetailExample;
 
 @Repository("scddOrderDetailMapper")
 public interface ScddOrderDetailMapper {
