@@ -42,15 +42,18 @@ public class UserServiceImpl implements UserService {
 		ScddUserExample example = new ScddUserExample();
 		example.setOrderByClause("modify_date desc");
 		ScddUserExample.Criteria criteria = example.createCriteria();
-		if(StringUtils.isNotBlank(user.getName())) {
-			criteria.andNameLike("%" + user.getName() + "%");
+		if(user != null) {
+			if(StringUtils.isNotBlank(user.getName())) {
+				criteria.andNameLike("%" + user.getName() + "%");
+			}
+			if(StringUtils.isNotBlank(user.getPhone())) {
+				criteria.andPhoneLike("%" + user.getPhone() + "%");
+			}
+			if(StringUtils.isNotBlank(user.getCode())) {
+				criteria.andCodeLike("%" + user.getCode() + "%");
+			}
 		}
-		if(StringUtils.isNotBlank(user.getPhone())) {
-			criteria.andPhoneLike("%" + user.getPhone() + "%");
-		}
-		if(StringUtils.isNotBlank(user.getCode())) {
-			criteria.andCodeLike("%" + user.getCode() + "%");
-		}
+		criteria.andDeleteFlagEqualTo(DeleteFlagEnum.NO.getCode());
 		return this.scddUserMapper.selectByExample(example);
 	}
 

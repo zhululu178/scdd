@@ -41,12 +41,15 @@ public class MemberServiceImpl implements MemberService {
 		ScddMemberExample example = new ScddMemberExample();
 		example.setOrderByClause("modify_date desc");
 		ScddMemberExample.Criteria criteria = example.createCriteria();
-		if(StringUtils.isNotBlank(member.getName())) {
-			criteria.andNameLike("%" + member.getName() + "%");
+		if(member != null) {
+			if(StringUtils.isNotBlank(member.getName())) {
+				criteria.andNameLike("%" + member.getName() + "%");
+			}
+			if(StringUtils.isNotBlank(member.getPhone())) {
+				criteria.andPhoneLike("%" + member.getPhone() + "%");
+			}
 		}
-		if(StringUtils.isNotBlank(member.getPhone())) {
-			criteria.andPhoneLike("%" + member.getPhone() + "%");
-		}
+		criteria.andDeleteFlagEqualTo(DeleteFlagEnum.NO.getCode());
 		List<ScddMember> list = this.scddMemberMapper.selectByExample(example);
 		if(list != null && list.size() > 0) {
 			for(ScddMember vo : list) {

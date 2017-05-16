@@ -48,6 +48,7 @@ public class SupplierServiceImpl implements SupplierService {
 			if(StringUtils.isNotBlank(supplier.getPhone())) {
 				criteria.andPhoneLike("%" + supplier.getPhone() + "%");
 			}
+			criteria.andDeleteFlagEqualTo(DeleteFlagEnum.NO.getCode());
 		}
 		return this.scddSupplierMapper.selectByExample(example);
 	}

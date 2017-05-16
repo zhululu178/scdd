@@ -39,13 +39,17 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 	}
 
-	public List<ScddGoods> searchByGoods(ScddGoods member) {
+	public List<ScddGoods> searchByGoods(ScddGoods goods) {
 		ScddGoodsExample example = new ScddGoodsExample("g");
 		example.setOrderByClause("g.modify_date desc");
 		ScddGoodsExample.Criteria criteria = example.createCriteria();
-		if(StringUtils.isNotBlank(member.getName())) {
-			criteria.andNameLike("%" + member.getName() + "%");
+		if(goods != null) {
+			if(StringUtils.isNotBlank(goods.getName())) {
+				criteria.andNameLike("%" + goods.getName() + "%");
+			}
+			criteria.andDeleteFlagEqualTo(DeleteFlagEnum.NO.getCode());
 		}
+		
 		List<ScddGoods> list = this.scddGoodsMapper.selectByExample(example);
 		return list;
 	}
