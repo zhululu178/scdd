@@ -31,10 +31,14 @@ public class OrderImportController {
 	 * ���������ʼ��
 	 * @return
 	 */
-	@RequestMapping(value="/index",method=RequestMethod.GET)
-	public ModelAndView init() {
+	@RequestMapping(value="/index")
+	public ModelAndView init(String transDate, String orderDetails) {
 		ModelAndView modelAndView = new ModelAndView("order/import/index");
-		modelAndView.addObject("transDate", formatter.format(new Date()));
+		if(StringUtils.isEmpty(transDate)) {
+			transDate = formatter.format(new Date());
+		}
+		modelAndView.addObject("transDate", transDate);
+		modelAndView.addObject("orderDetails", orderDetails);
 		return modelAndView;
 	}
 	public static void main(String[] args) {
@@ -49,7 +53,7 @@ public class OrderImportController {
         }
 	}
 	/**
-	 * ���涩�����
+	 * 导入保存的商品
 	 * @param transDate ��������
 	 * @param orders ������Ϣ
 	 * @return
@@ -65,7 +69,7 @@ public class OrderImportController {
 		}
 		if(!StringUtils.isEmpty(orderDetails)) {
 			String[] orderArr = orderDetails.split("\r\n");
-			List<String> msg = this.orderService.validOrder(transDatet, orderArr);
+			List<String> msg = this.orderService.saveOrders(transDatet, orderArr);
 			modelAndView.addObject("transDate", transDate);
 			modelAndView.addObject("orderDetails", orderDetails);
 			modelAndView.addObject("import_error_list", msg);

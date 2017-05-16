@@ -7,19 +7,19 @@
 				<legend>批量订单输入</legend>
 			</fieldset>
 
-			<form class="layui-form" action="${webRoot}/order/import/valid" method="POST">
+			<form class="layui-form" action="${webRoot}/order/import/save" method="POST">
 				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">交易日期</label>
 						<div class="layui-input-block">
-							<input type="text" name="transDate" value="${transDate}" id="date" lay-verify="date" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})">
+							<input type="text" name="transDate" value="${(transDate)!}" id="date" lay-verify="date" placeholder="yyyy-mm-dd" autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})">
 						</div>
 					</div>
 				</div>
 				<div class="layui-form-item layui-form-text">
 					<label class="layui-form-label">订单信息</label>
 					<div class="layui-input-block">
-						<textarea name="orderDetails" placeholder="请输入内容" class="layui-textarea" lay-verify="required"></textarea>
+						<textarea name="orderDetails" placeholder="请输入内容" class="layui-textarea" lay-verify="required">${(orderDetails)!}</textarea>
 					</div>
 				</div>
 				<div class="layui-form-item">

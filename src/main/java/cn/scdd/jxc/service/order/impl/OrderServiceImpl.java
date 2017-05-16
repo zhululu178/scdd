@@ -51,7 +51,7 @@ public class OrderServiceImpl implements OrderService {
 	/**
 	 * 验证订单信息
 	 */
-	public List<String> validOrder(Date transDate, String[] orderArr) {
+	public List<String> saveOrders(Date transDate, String[] orderArr) {
 		List<String> errMsgList = new ArrayList<String>();
 		Date createDate = new Date();
 		List<ScddOrder> orderList = new ArrayList<ScddOrder>(orderArr.length);
@@ -104,34 +104,38 @@ public class OrderServiceImpl implements OrderService {
 					order.setCreateDate(createDate);
 					order.setModifyDate(createDate);
 					//遍历订单中的商品信息
-					for(int j=3;j<orderInfoArr.length - 2;j++) {
+					for(int j=3;j<orderInfoArr.length - 1;j++) {
 						String goodsInfo = orderInfoArr[j];
 						String num = StringTool.subSetNum(goodsInfo);
-						int startNum = goodsInfo.indexOf(num);//数字的起始下标
-						if(StringUtils.isEmpty(num) || startNum == 0) {
-							errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单商品格式不正确.");
-						} else {
-							String goodsShortName = goodsInfo.substring(0, startNum);
-							ScddGoods goods = this.goodsService.searchGoodsByShortName(goodsShortName);
-							if(goods != null) {
-								ScddOrderDetail orderDetail = new ScddOrderDetail();
-								orderDetail.setGoodsId(goods.getId());
-								orderDetail.setQuantity(Integer.parseInt(num));
-								BigDecimal unitPrice = null;
-								if(isActivityOrder) {//活动价
-									unitPrice = goods.getActivityPrice();
-								} else {
-									if("1".equals(user.getAgentFlag())) {//是否代理
-										unitPrice = goods.getAgentPrice();//代理价
-									} else {
-										unitPrice = goods.getPrice();//正常价格
-									}
-								}
-								orderDetail.setUnitPrice(unitPrice);
-								order.getDetails().add(orderDetail);
+						if(!StringUtils.isEmpty(num)) {
+							int startNum = goodsInfo.indexOf(num);//数字的起始下标
+							if(startNum == 0) {
+								errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单商品信息[" + goodsInfo + "]格式不正确.");
 							} else {
-								errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单中商品名称[" + goodsShortName + "]不存在.");	
+								String goodsShortName = goodsInfo.substring(0, startNum);
+								ScddGoods goods = this.goodsService.searchGoodsByShortName(goodsShortName);
+								if(goods != null) {
+									ScddOrderDetail orderDetail = new ScddOrderDetail();
+									orderDetail.setGoodsId(goods.getId());
+									orderDetail.setQuantity(Integer.parseInt(num));
+									BigDecimal unitPrice = null;
+									if(isActivityOrder) {//活动价
+										unitPrice = goods.getActivityPrice();
+									} else {
+										if("1".equals(user.getAgentFlag())) {//是否代理
+											unitPrice = goods.getAgentPrice();//代理价
+										} else {
+											unitPrice = goods.getPrice();//正常价格
+										}
+									}
+									orderDetail.setUnitPrice(unitPrice);
+									order.getDetails().add(orderDetail);
+								} else {
+									errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单中商品名称[" + goodsShortName + "]不存在.");	
+								}
 							}
+						} else {
+							errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单商品信息[" + goodsInfo + "]格式不正确.");
 						}
 					}
 				} else {

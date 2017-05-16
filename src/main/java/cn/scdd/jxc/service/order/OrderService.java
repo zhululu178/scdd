@@ -15,5 +15,5 @@ public interface OrderService {
 	 * @param orderArr
 	 * @return
 	 */
-	public List<String> validOrder(Date transDate, String[] orderArr);
+	public List<String> saveOrders(Date transDate, String[] orderArr);
 }
