@@ -29,9 +29,9 @@ public class SupplierServiceImpl implements SupplierService {
 			supplierT.setName(supplier.getName());
 			supplierT.setContact(supplier.getContact());
 			supplierT.setRemark(supplier.getRemark());
-			supplierT.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			this.scddSupplierMapper.updateByPrimaryKey(supplierT);
 		} else {
+			supplier.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			supplier.setCreateDate(supplier.getModifyDate());
 			this.scddSupplierMapper.insert(supplier);	
 		}

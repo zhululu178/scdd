@@ -30,9 +30,9 @@ public class UserServiceImpl implements UserService {
 			userT.setWx(user.getWx());
 			userT.setPhone(user.getPhone());
 			userT.setName(user.getName());
-			userT.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			this.scddUserMapper.updateByPrimaryKey(userT);
 		} else {
+			user.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			user.setCreateDate(user.getModifyDate());
 			this.scddUserMapper.insert(user);	
 		}

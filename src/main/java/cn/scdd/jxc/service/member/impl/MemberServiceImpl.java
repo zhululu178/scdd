@@ -29,9 +29,9 @@ public class MemberServiceImpl implements MemberService {
 			memberT.setWx(member.getWx());
 			memberT.setPhone(member.getPhone());
 			memberT.setName(member.getName());
-			memberT.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			this.scddMemberMapper.updateByPrimaryKey(memberT);
 		} else {
+			member.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			member.setCreateDate(member.getModifyDate());
 			this.scddMemberMapper.insert(member);	
 		}

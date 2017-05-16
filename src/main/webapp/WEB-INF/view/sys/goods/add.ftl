@@ -94,13 +94,6 @@
 					agentPrice: [/^\d+(\.\d+)?$/, '请输入正确的商品代理价'],
 					activityPrice: [/^\d+(\.\d+)?$/, '请输入正确的商品活动价']
 				});
-
-				//监听提交
-				form.on('submit(demo1)', function(data) {
-					layer.alert(JSON.stringify(data.field), {
-						title: '最终的提交信息'
-					});
-				});
 			});
 		</script>
 	</body>

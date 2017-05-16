@@ -25,7 +25,7 @@ public class BaseController {
 	/** �ػ� */
 	protected HttpSession session;
 	/** ÿҳ��� */	
-	protected final static int PAGESIZE = 2;
+	protected final static int PAGESIZE = 10;
 	/** 页面的出错消息 */	
 	protected final static String ERR_MSG = "err_msg";
 	
