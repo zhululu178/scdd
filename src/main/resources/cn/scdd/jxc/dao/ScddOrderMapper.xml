@@ -7,6 +7,7 @@
     <result column="USER_ID" jdbcType="INTEGER" property="userId" />
     <result column="TRANS_DATE" jdbcType="DATE" property="transDate" />
     <result column="MANUAL_FLAG" jdbcType="CHAR" property="manualFlag" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
     <result column="ACTUAL_AMOUNT" jdbcType="DECIMAL" property="actualAmount" />
     <result column="DELIVERY_ADDR" jdbcType="VARCHAR" property="deliveryAddr" />
     <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, MEMBER_ID, USER_ID, TRANS_DATE, MANUAL_FLAG, ACTUAL_AMOUNT, DELIVERY_ADDR, DELETE_FLAG, 
-    CREATE_DATE, CREATOR_ID, MODIFY_DATE, MODIFIER_ID
+    ID, MEMBER_ID, USER_ID, TRANS_DATE, MANUAL_FLAG, AMOUNT, ACTUAL_AMOUNT, DELIVERY_ADDR, 
+    DELETE_FLAG, CREATE_DATE, CREATOR_ID, MODIFY_DATE, MODIFIER_ID
   </sql>
   <select id="selectByExample" parameterType="cn.scdd.jxc.entity.ScddOrderExample" resultMap="BaseResultMap">
     select
@@ -108,19 +109,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.scdd.jxc.entity.ScddOrder">
-    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
-	SELECT LAST_INSERT_ID() AS id
-	</selectKey>
     insert into scdd_order (ID, MEMBER_ID, USER_ID, 
-      TRANS_DATE, MANUAL_FLAG, ACTUAL_AMOUNT, 
-      DELIVERY_ADDR, DELETE_FLAG, CREATE_DATE, 
-      CREATOR_ID, MODIFY_DATE, MODIFIER_ID
-      )
+      TRANS_DATE, MANUAL_FLAG, AMOUNT, 
+      ACTUAL_AMOUNT, DELIVERY_ADDR, DELETE_FLAG, 
+      CREATE_DATE, CREATOR_ID, MODIFY_DATE, 
+      MODIFIER_ID)
     values (#{id,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{transDate,jdbcType=DATE}, #{manualFlag,jdbcType=CHAR}, #{actualAmount,jdbcType=DECIMAL}, 
-      #{deliveryAddr,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 
-      #{creatorId,jdbcType=INTEGER}, #{modifyDate,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=INTEGER}
-      )
+      #{transDate,jdbcType=DATE}, #{manualFlag,jdbcType=CHAR}, #{amount,jdbcType=DECIMAL}, 
+      #{actualAmount,jdbcType=DECIMAL}, #{deliveryAddr,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=CHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{creatorId,jdbcType=INTEGER}, #{modifyDate,jdbcType=TIMESTAMP}, 
+      #{modifierId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.scdd.jxc.entity.ScddOrder">
     insert into scdd_order
@@ -139,6 +137,9 @@
       </if>
       <if test="manualFlag != null">
         MANUAL_FLAG,
+      </if>
+      <if test="amount != null">
+        AMOUNT,
       </if>
       <if test="actualAmount != null">
         ACTUAL_AMOUNT,
@@ -177,6 +178,9 @@
       </if>
       <if test="manualFlag != null">
         #{manualFlag,jdbcType=CHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=DECIMAL},
       </if>
       <if test="actualAmount != null">
         #{actualAmount,jdbcType=DECIMAL},
@@ -225,6 +229,9 @@
       <if test="record.manualFlag != null">
         MANUAL_FLAG = #{record.manualFlag,jdbcType=CHAR},
       </if>
+      <if test="record.amount != null">
+        AMOUNT = #{record.amount,jdbcType=DECIMAL},
+      </if>
       <if test="record.actualAmount != null">
         ACTUAL_AMOUNT = #{record.actualAmount,jdbcType=DECIMAL},
       </if>
@@ -258,6 +265,7 @@
       USER_ID = #{record.userId,jdbcType=INTEGER},
       TRANS_DATE = #{record.transDate,jdbcType=DATE},
       MANUAL_FLAG = #{record.manualFlag,jdbcType=CHAR},
+      AMOUNT = #{record.amount,jdbcType=DECIMAL},
       ACTUAL_AMOUNT = #{record.actualAmount,jdbcType=DECIMAL},
       DELIVERY_ADDR = #{record.deliveryAddr,jdbcType=VARCHAR},
       DELETE_FLAG = #{record.deleteFlag,jdbcType=CHAR},
@@ -283,6 +291,9 @@
       </if>
       <if test="manualFlag != null">
         MANUAL_FLAG = #{manualFlag,jdbcType=CHAR},
+      </if>
+      <if test="amount != null">
+        AMOUNT = #{amount,jdbcType=DECIMAL},
       </if>
       <if test="actualAmount != null">
         ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
@@ -314,6 +325,7 @@
       USER_ID = #{userId,jdbcType=INTEGER},
       TRANS_DATE = #{transDate,jdbcType=DATE},
       MANUAL_FLAG = #{manualFlag,jdbcType=CHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
       ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
       DELIVERY_ADDR = #{deliveryAddr,jdbcType=VARCHAR},
       DELETE_FLAG = #{deleteFlag,jdbcType=CHAR},

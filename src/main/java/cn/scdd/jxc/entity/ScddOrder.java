@@ -15,6 +15,8 @@ public class ScddOrder {
 
     private String manualFlag;
 
+    private BigDecimal amount;
+
     private BigDecimal actualAmount;
 
     private String deliveryAddr;
@@ -69,6 +71,14 @@ public class ScddOrder {
 
     public void setManualFlag(String manualFlag) {
         this.manualFlag = manualFlag == null ? null : manualFlag.trim();
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
     public BigDecimal getActualAmount() {
