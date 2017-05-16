@@ -7,7 +7,7 @@
 				<legend>批量订单输入</legend>
 			</fieldset>
 
-			<form class="layui-form" action="${webRoot}/order/import/save" method="POST">
+			<form class="layui-form" action="${webRoot}/order/import/valid" method="POST">
 				<div class="layui-form-item">
 					<div class="layui-inline">
 						<label class="layui-form-label">交易日期</label>

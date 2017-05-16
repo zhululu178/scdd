@@ -12,6 +12,7 @@ import cn.scdd.jxc.entity.ScddMember;
 import cn.scdd.jxc.entity.ScddMemberExample;
 import cn.scdd.jxc.service.member.MemberService;
 import cn.scdd.jxc.util.Context;
+import cn.scdd.jxc.util.Context.DeleteFlagEnum;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
@@ -28,6 +29,7 @@ public class MemberServiceImpl implements MemberService {
 			memberT.setWx(member.getWx());
 			memberT.setPhone(member.getPhone());
 			memberT.setName(member.getName());
+			memberT.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			this.scddMemberMapper.updateByPrimaryKey(memberT);
 		} else {
 			member.setCreateDate(member.getModifyDate());
@@ -71,13 +73,16 @@ public class MemberServiceImpl implements MemberService {
 	 * @return
 	 */
 	public ScddMember searchMemberByPhone(String phone) {
-		ScddMember member = new ScddMember();
-		member.setPhone(phone);
-		List<ScddMember> members = this.searchByMember(member);
-		if(members != null && members.size() != 1) {
+		ScddMemberExample example = new ScddMemberExample();
+		ScddMemberExample.Criteria criteria = example.createCriteria();
+		if(StringUtils.isNotBlank(phone)) {
+			criteria.andPhoneEqualTo(phone);
+		}
+		List<ScddMember> list = this.scddMemberMapper.selectByExample(example);
+		if(list != null && list.size() != 1) {
 			return null;
 		} else {
-			return members.get(0);
+			return list.get(0);
 		}
 	}
 }

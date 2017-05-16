@@ -11,6 +11,7 @@ import cn.scdd.jxc.dao.ScddSupplierMapper;
 import cn.scdd.jxc.entity.ScddSupplier;
 import cn.scdd.jxc.entity.ScddSupplierExample;
 import cn.scdd.jxc.service.supplier.SupplierService;
+import cn.scdd.jxc.util.Context.DeleteFlagEnum;
 
 @Service("supplierService")
 public class SupplierServiceImpl implements SupplierService {
@@ -28,6 +29,7 @@ public class SupplierServiceImpl implements SupplierService {
 			supplierT.setName(supplier.getName());
 			supplierT.setContact(supplier.getContact());
 			supplierT.setRemark(supplier.getRemark());
+			supplierT.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			this.scddSupplierMapper.updateByPrimaryKey(supplierT);
 		} else {
 			supplier.setCreateDate(supplier.getModifyDate());

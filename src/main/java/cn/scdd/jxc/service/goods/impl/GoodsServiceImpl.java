@@ -11,6 +11,7 @@ import cn.scdd.jxc.dao.ScddGoodsMapper;
 import cn.scdd.jxc.entity.ScddGoods;
 import cn.scdd.jxc.entity.ScddGoodsExample;
 import cn.scdd.jxc.service.goods.GoodsService;
+import cn.scdd.jxc.util.Context.DeleteFlagEnum;
 
 @Service("goodsService")
 public class GoodsServiceImpl implements GoodsService {
@@ -30,6 +31,7 @@ public class GoodsServiceImpl implements GoodsService {
 			goodsT.setSupplierId(goods.getSupplierId());
 			goodsT.setStockNum(goods.getStockNum());
 			goodsT.setClassId(goods.getClassId());
+			goodsT.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			this.scddGoodsMapper.updateByPrimaryKey(goodsT);
 		} else {
 			goods.setCreateDate(goods.getModifyDate());
@@ -63,13 +65,16 @@ public class GoodsServiceImpl implements GoodsService {
 	 * @return
 	 */
 	public ScddGoods searchGoodsByShortName(String shortName) {
-		ScddGoods goods = new ScddGoods();
-		goods.setShortName(shortName);
-		List<ScddGoods> goodses = this.searchByGoods(goods);
-		if(goodses != null && goodses.size() != 1) {
+		ScddGoodsExample example = new ScddGoodsExample("g");
+		ScddGoodsExample.Criteria criteria = example.createCriteria();
+		if(StringUtils.isNotBlank(shortName)) {
+			criteria.andShortNameEqualTo(shortName);
+		}
+		List<ScddGoods> list = this.scddGoodsMapper.selectByExample(example);
+		if(list != null && list.size() != 1) {
 			return null;
 		} else {
-			return goodses.get(0);
+			return list.get(0);
 		}
 	}
 }

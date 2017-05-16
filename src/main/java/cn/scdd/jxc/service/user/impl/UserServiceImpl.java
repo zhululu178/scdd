@@ -11,6 +11,7 @@ import cn.scdd.jxc.dao.ScddUserMapper;
 import cn.scdd.jxc.entity.ScddUser;
 import cn.scdd.jxc.entity.ScddUserExample;
 import cn.scdd.jxc.service.user.UserService;
+import cn.scdd.jxc.util.Context.DeleteFlagEnum;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -29,6 +30,7 @@ public class UserServiceImpl implements UserService {
 			userT.setWx(user.getWx());
 			userT.setPhone(user.getPhone());
 			userT.setName(user.getName());
+			userT.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			this.scddUserMapper.updateByPrimaryKey(userT);
 		} else {
 			user.setCreateDate(user.getModifyDate());
@@ -62,9 +64,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	public ScddUser searchByCode(String code) {
-		ScddUser user = new ScddUser();
-		user.setCode(code);
-		List<ScddUser> users = this.searchByUser(user);
+		ScddUserExample example = new ScddUserExample();
+		ScddUserExample.Criteria criteria = example.createCriteria();
+		if(StringUtils.isNotBlank(code)) {
+			criteria.andCodeEqualTo(code);
+		}
+		List<ScddUser> users = this.scddUserMapper.selectByExample(example);
 		if(users != null && users.size() != 1) {
 			return null;
 		} else {

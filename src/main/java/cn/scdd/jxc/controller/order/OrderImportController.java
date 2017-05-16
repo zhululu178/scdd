@@ -1,9 +1,9 @@
 package cn.scdd.jxc.controller.order;
 
-import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.scdd.jxc.entity.ScddOrder;
 import cn.scdd.jxc.service.order.OrderService;
 import cn.scdd.jxc.util.Context;
 
@@ -57,7 +56,7 @@ public class OrderImportController {
 	 */
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public ModelAndView save(String transDate, String orderDetails) {
-		ModelAndView modelAndView = null;
+		ModelAndView modelAndView = new ModelAndView("order/import/confirm");
 		Date transDatet = null;
 		try {
 			transDatet = formatter.parse(transDate);
@@ -66,21 +65,11 @@ public class OrderImportController {
 		}
 		if(!StringUtils.isEmpty(orderDetails)) {
 			String[] orderArr = orderDetails.split("\r\n");
-			
+			List<String> msg = this.orderService.validOrder(transDatet, orderArr);
+			modelAndView.addObject("transDate", transDate);
+			modelAndView.addObject("orderDetails", orderDetails);
+			modelAndView.addObject("import_error_list", msg);
 		}
-		modelAndView = new ModelAndView("order/import/list");
 		return modelAndView;
-	}
-	
-	/**
-	 * 根据输入的信息产生订单
-	 * @param orderInfoArr
-	 * @return
-	 */
-	private ScddOrder geneOrder(String[] orderInfoArr) {
-		ScddOrder scddOrder = new ScddOrder();
-		scddOrder.setActualAmount(new BigDecimal(11));//ʵ���տ���
-		
-		return scddOrder;
 	}
 }
