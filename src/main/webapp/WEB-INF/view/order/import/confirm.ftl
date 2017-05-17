@@ -10,7 +10,7 @@
 			<form class="layui-form" action="${webRoot}/order/import/index" method="POST">
 				<input type="hidden" name="transDate" value="${transDate}"/>
 				<input type="hidden" name="orderDetails" value="${orderDetails}"/>
-			<#if import_error_list??>
+			<#if import_error_list?? && import_error_list?size gt 0>
 			<#list import_error_list as err_msgt>
 			${(err_msgt)!}<p>
 			</#list>

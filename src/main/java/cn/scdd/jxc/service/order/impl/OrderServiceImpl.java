@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
 					//2. 系统销售人员信息
 					boolean isActivityOrder = false;
 					String salesInfo = orderInfoArr[orderInfoArr.length - 1];
-					String actualAmountStr = StringTool.subSetNum(salesInfo);
+					String actualAmountStr = StringTool.subSetFirstNum(salesInfo);
 					if(StringUtils.isEmpty(actualAmountStr)) {
 						errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单实际销售金额有误.");
 					} else {
@@ -107,7 +107,7 @@ public class OrderServiceImpl implements OrderService {
 					BigDecimal allGoodsAmount = new BigDecimal(0);//所有商品总价值
 					for(int j=3;j<orderInfoArr.length - 1;j++) {
 						String goodsInfo = orderInfoArr[j];
-						String num = StringTool.subSetNum(goodsInfo);
+						String num = StringTool.subSetLastNum(goodsInfo);
 						if(!StringUtils.isEmpty(num)) {
 							int startNum = goodsInfo.indexOf(num);//数字的起始下标
 							if(startNum == 0) {
