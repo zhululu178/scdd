@@ -104,6 +104,7 @@ public class OrderServiceImpl implements OrderService {
 					order.setCreateDate(createDate);
 					order.setModifyDate(createDate);
 					//遍历订单中的商品信息
+					BigDecimal allGoodsAmount = new BigDecimal(0);//所有商品总价值
 					for(int j=3;j<orderInfoArr.length - 1;j++) {
 						String goodsInfo = orderInfoArr[j];
 						String num = StringTool.subSetNum(goodsInfo);
@@ -129,6 +130,7 @@ public class OrderServiceImpl implements OrderService {
 										}
 									}
 									orderDetail.setUnitPrice(unitPrice);
+									allGoodsAmount = allGoodsAmount.add(unitPrice.multiply(new BigDecimal(orderDetail.getQuantity())));//计算总金额
 									order.getDetails().add(orderDetail);
 								} else {
 									errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单中商品名称[" + goodsShortName + "]不存在.");	
@@ -138,6 +140,7 @@ public class OrderServiceImpl implements OrderService {
 							errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单商品信息[" + goodsInfo + "]格式不正确.");
 						}
 					}
+					order.setAmount(allGoodsAmount);
 				} else {
 					errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单格式不正确不存在.");
 				}

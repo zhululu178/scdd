@@ -109,6 +109,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.scdd.jxc.entity.ScddOrder">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+	SELECT LAST_INSERT_ID() AS id
+	</selectKey>
     insert into scdd_order (ID, MEMBER_ID, USER_ID, 
       TRANS_DATE, MANUAL_FLAG, AMOUNT, 
       ACTUAL_AMOUNT, DELIVERY_ADDR, DELETE_FLAG, 
