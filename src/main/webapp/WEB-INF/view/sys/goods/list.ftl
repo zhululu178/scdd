@@ -36,8 +36,8 @@
 						<thead>
 							<tr>
 								<th><input type="checkbox" id="selected-all"></th>
-								<th>商品简称</th>
 								<th>商品名称</th>
+								<th>商品简称</th>
 								<th>商品售价</th>
 								<th>商品进价</th>
 								<th>商品代理价</th>

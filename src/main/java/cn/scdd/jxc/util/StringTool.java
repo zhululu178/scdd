@@ -11,7 +11,6 @@ public class StringTool {
         Matcher matcher = pattern.matcher(str);
         while(matcher.find()) {
         	reStr = matcher.group();
-            break;
         }
         return reStr;
 	}
