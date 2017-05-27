@@ -88,4 +88,8 @@ public class MemberServiceImpl implements MemberService {
 			return list.get(0);
 		}
 	}
+
+	public List<ScddMember> searchAll() {
+		return this.searchByMember(null);
+	}
 }

@@ -6,6 +6,10 @@ var navs = [{
 		"title": "订单导入",
 		"icon": "&#xe641;",
 		"href": "order/import/index"
+	},{
+		"title": "订单查询",
+		"icon": "&#xe641;",
+		"href": "order/list"
 	}]
 }, {
 	"title": "系统管理",

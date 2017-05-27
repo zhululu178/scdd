@@ -4,14 +4,19 @@ import java.util.Date;
 import java.util.List;
 
 import cn.scdd.jxc.entity.ScddOrder;
+import cn.scdd.jxc.entity.ScddOrderSearchPage;
 
 public interface OrderService {
 	public void saveOrders(List<ScddOrder> orderList);
 	
 	public void saveOrder(ScddOrder order);
 	
+	public List<ScddOrderSearchPage> searchByOrder(ScddOrderSearchPage order);
+	
+	public ScddOrder searchOrderById(int id);
+	
 	/**
-	 * 验证订单的有效性，比如商品名称是否合法等
+	 * 批量保存
 	 * @param orderArr
 	 * @return
 	 */

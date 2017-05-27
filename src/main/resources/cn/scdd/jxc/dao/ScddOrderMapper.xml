@@ -15,6 +15,39 @@
     <result column="CREATOR_ID" jdbcType="INTEGER" property="creatorId" />
     <result column="MODIFY_DATE" jdbcType="TIMESTAMP" property="modifyDate" />
     <result column="MODIFIER_ID" jdbcType="INTEGER" property="modifierId" />
+    <!-- 会员 -->
+   	<association property="member" javaType="cn.scdd.jxc.entity.ScddMember">
+    	<id column="MEMBER_ID1" property="id"/>
+    	<id column="MEMBER_PHONE" property="phone"/>
+    	<id column="LEVEL" property="level"/>
+    	<id column="MEMBER_NAME" property="name"/>
+    	<id column="POINTS" property="points"/>
+   	</association>
+   	<!-- 销售人 -->
+   	<association property="user" javaType="cn.scdd.jxc.entity.ScddUser">
+    	<id column="USER_ID1" property="id"/>
+    	<id column="AGENT_FLAG" property="agentFlag"/>
+    	<id column="USER_CODE" property="code"/>
+    	<id column="USER_NAME" property="name"/>
+    	<id column="USER_PHONE" property="phone"/>
+   	</association>
+    <!-- 订单明细 -->
+    <collection property="details" ofType="cn.scdd.jxc.entity.ScddOrderDetail">
+    	<id column="DETAIL_ID" property="id"/>
+    	<id column="ORDER_ID" property="orderId"/>
+    	<id column="GOODS_ID" property="goodsId"/>
+    	<id column="DISCOUNT" property="discount"/>
+    	<id column="UNIT_PRICE" property="unitPrice"/>
+    	<id column="QUANTITY" property="quantity"/>
+    	<!-- 商品 -->
+    	<association property="goods" javaType="cn.scdd.jxc.entity.ScddGoods">
+	    	<id column="GOODS_ID1" property="id"/>
+	    	<id column="GOODS_CODE" property="code"/>
+	    	<id column="CLASS_ID" property="classId"/>
+	    	<id column="AGENT_PRICE" property="agentPrice"/>
+	    	<id column="ACTIVITY_PRICE" property="activityPrice"/>
+    	</association>
+    </collection>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -338,4 +371,54 @@
       MODIFIER_ID = #{modifierId,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
+
+  <!-- 查询订单列表 -->
+  <resultMap id="PageSearchResult" type="cn.scdd.jxc.entity.ScddOrderSearchPage">
+    <id column="ID" jdbcType="INTEGER" property="id" />
+    <result column="MEMBER_ID" jdbcType="INTEGER" property="memberId" />
+    <result column="MEMBER_NAME" jdbcType="VARCHAR" property="memberName" />
+    <result column="MEMBER_PHONE" jdbcType="VARCHAR" property="memberPhone" />
+    <result column="USER_ID" jdbcType="INTEGER" property="userId" />
+    <result column="USER_NAME" jdbcType="VARCHAR" property="userName" />
+    <result column="TRANS_DATE" jdbcType="DATE" property="transDate" />
+    <result column="MANUAL_FLAG" jdbcType="CHAR" property="manualFlag" />
+    <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
+    <result column="ACTUAL_AMOUNT" jdbcType="DECIMAL" property="actualAmount" />
+    <result column="DELIVERY_ADDR" jdbcType="VARCHAR" property="deliveryAddr" />
+    <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
+    <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="CREATOR_ID" jdbcType="INTEGER" property="creatorId" />
+    <result column="MODIFY_DATE" jdbcType="TIMESTAMP" property="modifyDate" />
+    <result column="MODIFIER_ID" jdbcType="INTEGER" property="modifierId" />
+  </resultMap>
+  <select id="selectByOrder" parameterType="cn.scdd.jxc.entity.ScddOrder" resultMap="PageSearchResult">
+    select o.MEMBER_ID, m.NAME MEMBER_NAME, m.PHONE MEMBER_PHONE, o.USER_ID, u.NAME USER_NAME, 
+		o.ID, o.TRANS_DATE, o.MANUAL_FLAG, o.AMOUNT, o.ACTUAL_AMOUNT, o.DELIVERY_ADDR, 
+		o.DELETE_FLAG, o.CREATE_DATE, o.CREATOR_ID, o.MODIFY_DATE, o.MODIFIER_ID
+	from scdd_order o,scdd_member m,scdd_user u
+	where o.MEMBER_ID = m.ID and o.USER_ID = u.ID
+    <if test="memberName != null">
+      and m.name like CONCAT('%',#{memberName},'%')
+    </if>
+    <if test="memberPhone != null">
+      and m.phone like CONCAT('%',#{memberPhone},'%')
+    </if>
+    <if test="userName != null">
+      and u.name like CONCAT('%',#{userName},'%')
+    </if>
+    <if test="transDateStart != null and transDateEnd != null">
+      and o.TRANS_DATE between #{transDateStart} and #{transDateEnd}
+    </if>
+  </select>
+  <select id="selectHeavyOrderById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT o.*, d.id DETAIL_ID, d.DISCOUNT, d.GOODS_ID, d.ORDER_ID, d.QUANTITY, d.UNIT_PRICE,
+		g.ACTIVITY_PRICE, g.AGENT_PRICE, g.CLASS_ID, g.CODE GOODS_CODE, g.ID GOODS_ID1,
+		u.ID USER_ID1, u.AGENT_FLAG, u.CODE USER_CODE, u.NAME USER_NAME, u.PHONE USER_PHONE,
+    	m.ID MEMBER_ID1, m.PHONE MEMBER_PHONE, m.LEVEL, m.NAME MEMBER_NAME, m.POINTS
+    from scdd_order o left join scdd_order_detail d on o.id = d.ORDER_ID left join scdd_goods g on d.GOODS_ID = g.ID and g.DELETE_FLAG = '0', 
+    	scdd_member m, scdd_user u
+    where o.MEMBER_ID = m.ID and o.USER_ID = u.ID
+    	and o.DELETE_FLAG = '0' and u.DELETE_FLAG = '0' and m.DELETE_FLAG = '0'
+    	and o.ID = #{id,jdbcType=INTEGER}
+  </select>
 </mapper>

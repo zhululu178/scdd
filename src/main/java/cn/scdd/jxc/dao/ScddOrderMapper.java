@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import cn.scdd.jxc.entity.ScddOrder;
 import cn.scdd.jxc.entity.ScddOrderExample;
+import cn.scdd.jxc.entity.ScddOrderSearchPage;
 
 @Repository("scddOrderMapper")
 public interface ScddOrderMapper {
@@ -23,7 +24,9 @@ public interface ScddOrderMapper {
     List<ScddOrder> selectByExample(ScddOrderExample example);
 
     ScddOrder selectByPrimaryKey(Integer id);
-
+    
+    ScddOrder selectHeavyOrderById(Integer id);
+    
     int updateByExampleSelective(@Param("record") ScddOrder record, @Param("example") ScddOrderExample example);
 
     int updateByExample(@Param("record") ScddOrder record, @Param("example") ScddOrderExample example);
@@ -31,4 +34,6 @@ public interface ScddOrderMapper {
     int updateByPrimaryKeySelective(ScddOrder record);
 
     int updateByPrimaryKey(ScddOrder record);
+    
+    List<ScddOrderSearchPage> selectByOrder(ScddOrderSearchPage order);
 }

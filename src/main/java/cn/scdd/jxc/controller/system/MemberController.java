@@ -1,5 +1,6 @@
 package cn.scdd.jxc.controller.system;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import cn.scdd.jxc.controller.BaseController;
 import cn.scdd.jxc.entity.ScddMember;
 import cn.scdd.jxc.service.member.MemberService;
 import cn.scdd.jxc.util.Context.MemberLevelEnum;
+import cn.scdd.jxc.util.KeyLabelVo;
 import cn.scdd.jxc.util.MessageContext;
 import cn.scdd.jxc.util.PageVo;
 
@@ -80,6 +82,31 @@ public class MemberController extends BaseController {
 		}
 		
 		return modelAndView;
+	}
+	
+	/**
+	 * 会员值返回
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/find")
+	public List<KeyLabelVo> find(String term) {
+		System.out.println("搜索关键字:" + term);
+		List<KeyLabelVo> reList = null;
+		List<ScddMember> list = this.memberService.searchAll();
+		if(list != null && list.size() > 0) {
+			reList = new ArrayList<KeyLabelVo>();
+			for(ScddMember m : list) {
+				if(m.getPhone().indexOf(term) >= 0 || 
+						m.getName().indexOf(term) >= 0) {
+					KeyLabelVo kVo = new KeyLabelVo();
+					kVo.setKey(m.getId().toString());
+					kVo.setLabel(m.getName() + "-" + m.getPhone());
+					reList.add(kVo);
+				}
+			}
+		}
+		return reList;
 	}
 	
 	/**

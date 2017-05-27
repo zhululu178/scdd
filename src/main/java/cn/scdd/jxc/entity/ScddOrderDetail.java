@@ -14,6 +14,8 @@ public class ScddOrderDetail {
     private BigDecimal unitPrice;
 
     private Integer quantity;
+    
+    private ScddGoods goods;
 
     public Integer getId() {
         return id;
@@ -62,4 +64,12 @@ public class ScddOrderDetail {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+	public ScddGoods getGoods() {
+		return goods;
+	}
+
+	public void setGoods(ScddGoods goods) {
+		this.goods = goods;
+	}
 }

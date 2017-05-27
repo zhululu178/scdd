@@ -9,6 +9,8 @@ public interface MemberService {
 	
 	public List<ScddMember> searchByMember(ScddMember member);
 	
+	public List<ScddMember> searchAll();
+	
 	public ScddMember searchMemberById(int id);
 	
 	public boolean checkMemberExists(ScddMember record);

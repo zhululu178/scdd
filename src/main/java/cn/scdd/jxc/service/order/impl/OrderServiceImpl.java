@@ -15,6 +15,7 @@ import cn.scdd.jxc.entity.ScddGoods;
 import cn.scdd.jxc.entity.ScddMember;
 import cn.scdd.jxc.entity.ScddOrder;
 import cn.scdd.jxc.entity.ScddOrderDetail;
+import cn.scdd.jxc.entity.ScddOrderSearchPage;
 import cn.scdd.jxc.entity.ScddUser;
 import cn.scdd.jxc.service.goods.GoodsService;
 import cn.scdd.jxc.service.member.MemberService;
@@ -45,7 +46,33 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	public void saveOrder(ScddOrder order) {
-		this.scddOrderMapper.insert(order);
+		Date today = new Date();
+		if(order.getId() != null) {
+			ScddOrder orderT = this.scddOrderMapper.selectByPrimaryKey(order.getId());
+			orderT.setMemberId(order.getMemberId());
+			orderT.setUserId(order.getUserId());
+			orderT.setActualAmount(order.getActualAmount());
+			orderT.setDeliveryAddr(order.getDeliveryAddr());
+			orderT.setTransDate(order.getTransDate());
+			orderT.setModifyDate(today);
+			this.scddOrderMapper.updateByPrimaryKey(orderT);
+//			ScddOrderDetailExample example = new ScddOrderDetailExample();
+//			Criteria criteria = example.createCriteria();
+//			criteria.andIdEqualTo(order.getId());
+//			this.scddOrderDetailMapper.deleteByExample(example);
+		} else {
+			order.setDeleteFlag(DeleteFlagEnum.NO.getCode());
+			order.setCreateDate(today);
+			order.setModifyDate(today);
+			this.scddOrderMapper.insert(order);
+		}
+		List<ScddOrderDetail> details = order.getDetails();
+		if(details != null && details.size() > 0) {
+			for(ScddOrderDetail detail : details) {
+				detail.setOrderId(order.getId());
+				this.scddOrderDetailMapper.insert(detail);
+			}
+		}
 	}
 	
 	/**
@@ -53,7 +80,6 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	public List<String> saveOrders(Date transDate, String[] orderArr) {
 		List<String> errMsgList = new ArrayList<String>();
-		Date createDate = new Date();
 		List<ScddOrder> orderList = new ArrayList<ScddOrder>(orderArr.length);
 		for(int i=0;i<orderArr.length;i++) {
 			if(!StringUtils.isEmpty(orderArr[i])) {
@@ -100,9 +126,6 @@ public class OrderServiceImpl implements OrderService {
 					}
 					
 					order.setTransDate(transDate);
-					order.setDeleteFlag(DeleteFlagEnum.NO.getCode());
-					order.setCreateDate(createDate);
-					order.setModifyDate(createDate);
 					//遍历订单中的商品信息
 					BigDecimal allGoodsAmount = new BigDecimal(0);//所有商品总价值
 					for(int j=3;j<orderInfoArr.length - 1;j++) {
@@ -159,15 +182,16 @@ public class OrderServiceImpl implements OrderService {
 	private void saveOrderList(List<ScddOrder> orderList) {
 		if(orderList != null && orderList.size() > 0) {
 			for(ScddOrder order : orderList) {
-				this.scddOrderMapper.insert(order);
-				List<ScddOrderDetail> details = order.getDetails();
-				if(details != null && details.size() > 0) {
-					for(ScddOrderDetail detail : details) {
-						detail.setOrderId(order.getId());
-						this.scddOrderDetailMapper.insert(detail);
-					}
-				}
+				this.saveOrder(order);
 			}
 		}
+	}
+
+	public List<ScddOrderSearchPage> searchByOrder(ScddOrderSearchPage order) {
+		return this.scddOrderMapper.selectByOrder(order);
+	}
+
+	public ScddOrder searchOrderById(int id) {
+		return this.scddOrderMapper.selectHeavyOrderById(id);
 	}
 }

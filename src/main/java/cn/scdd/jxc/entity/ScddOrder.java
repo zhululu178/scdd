@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ScddOrder {
     private Integer id;
 
@@ -11,6 +13,7 @@ public class ScddOrder {
 
     private Integer userId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date transDate;
 
     private String manualFlag;
@@ -30,6 +33,10 @@ public class ScddOrder {
     private Date modifyDate;
 
     private Integer modifierId;
+    
+    private ScddUser user;
+    
+    private ScddMember member;
     
     private List<ScddOrderDetail> details;
 
@@ -143,5 +150,21 @@ public class ScddOrder {
 
 	public void setDetails(List<ScddOrderDetail> details) {
 		this.details = details;
+	}
+
+	public ScddUser getUser() {
+		return user;
+	}
+
+	public void setUser(ScddUser user) {
+		this.user = user;
+	}
+
+	public ScddMember getMember() {
+		return member;
+	}
+
+	public void setMember(ScddMember member) {
+		this.member = member;
 	}
 }
