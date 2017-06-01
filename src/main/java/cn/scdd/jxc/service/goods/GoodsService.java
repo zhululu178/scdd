@@ -9,6 +9,8 @@ public interface GoodsService {
 	
 	public List<ScddGoods> searchByGoods(ScddGoods goods);
 	
+	public List<ScddGoods> searchAll();
+	
 	public ScddGoods searchGoodsById(int id);
 	
 	public boolean checkGoodsExists(ScddGoods record);

@@ -43,6 +43,8 @@
     	<association property="goods" javaType="cn.scdd.jxc.entity.ScddGoods">
 	    	<id column="GOODS_ID1" property="id"/>
 	    	<id column="GOODS_CODE" property="code"/>
+	    	<id column="GOODS_NAME" property="name"/>
+	    	<id column="SHORT_NAME" property="shortName"/>
 	    	<id column="CLASS_ID" property="classId"/>
 	    	<id column="AGENT_PRICE" property="agentPrice"/>
 	    	<id column="ACTIVITY_PRICE" property="activityPrice"/>
@@ -412,7 +414,7 @@
   </select>
   <select id="selectHeavyOrderById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     SELECT o.*, d.id DETAIL_ID, d.DISCOUNT, d.GOODS_ID, d.ORDER_ID, d.QUANTITY, d.UNIT_PRICE,
-		g.ACTIVITY_PRICE, g.AGENT_PRICE, g.CLASS_ID, g.CODE GOODS_CODE, g.ID GOODS_ID1,
+		g.ACTIVITY_PRICE, g.AGENT_PRICE, g.CLASS_ID, g.CODE GOODS_CODE, g.NAME GOODS_NAME, g.SHORT_NAME, g.ID GOODS_ID1,
 		u.ID USER_ID1, u.AGENT_FLAG, u.CODE USER_CODE, u.NAME USER_NAME, u.PHONE USER_PHONE,
     	m.ID MEMBER_ID1, m.PHONE MEMBER_PHONE, m.LEVEL, m.NAME MEMBER_NAME, m.POINTS
     from scdd_order o left join scdd_order_detail d on o.id = d.ORDER_ID left join scdd_goods g on d.GOODS_ID = g.ID and g.DELETE_FLAG = '0', 

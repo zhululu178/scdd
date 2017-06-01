@@ -81,4 +81,8 @@ public class GoodsServiceImpl implements GoodsService {
 			return list.get(0);
 		}
 	}
+
+	public List<ScddGoods> searchAll() {
+		return this.searchByGoods(null);
+	}
 }

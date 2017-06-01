@@ -15,6 +15,8 @@ import cn.scdd.jxc.entity.ScddGoods;
 import cn.scdd.jxc.entity.ScddMember;
 import cn.scdd.jxc.entity.ScddOrder;
 import cn.scdd.jxc.entity.ScddOrderDetail;
+import cn.scdd.jxc.entity.ScddOrderDetailExample;
+import cn.scdd.jxc.entity.ScddOrderDetailExample.Criteria;
 import cn.scdd.jxc.entity.ScddOrderSearchPage;
 import cn.scdd.jxc.entity.ScddUser;
 import cn.scdd.jxc.service.goods.GoodsService;
@@ -47,6 +49,19 @@ public class OrderServiceImpl implements OrderService {
 
 	public void saveOrder(ScddOrder order) {
 		Date today = new Date();
+		List<ScddOrderDetail> details = order.getDetails();
+		BigDecimal allAmount = new BigDecimal(0);//订单的总金额
+		if(details != null && details.size() > 0) {
+			for(ScddOrderDetail detail : details) {
+				if(detail != null && detail.getGoodsId() != null) {
+					BigDecimal amout = detail.getUnitPrice().multiply(new BigDecimal(detail.getQuantity()));
+					if(detail.getDiscount() != null && detail.getDiscount().doubleValue() != 0) {//有折扣
+						amout = amout.multiply(detail.getDiscount());
+					}
+					allAmount = allAmount.add(amout);
+				}
+			}
+		}
 		if(order.getId() != null) {
 			ScddOrder orderT = this.scddOrderMapper.selectByPrimaryKey(order.getId());
 			orderT.setMemberId(order.getMemberId());
@@ -55,22 +70,26 @@ public class OrderServiceImpl implements OrderService {
 			orderT.setDeliveryAddr(order.getDeliveryAddr());
 			orderT.setTransDate(order.getTransDate());
 			orderT.setModifyDate(today);
+			orderT.setAmount(allAmount);
 			this.scddOrderMapper.updateByPrimaryKey(orderT);
-//			ScddOrderDetailExample example = new ScddOrderDetailExample();
-//			Criteria criteria = example.createCriteria();
-//			criteria.andIdEqualTo(order.getId());
-//			this.scddOrderDetailMapper.deleteByExample(example);
+			//删除已存在的订单明细
+			ScddOrderDetailExample example = new ScddOrderDetailExample();
+			Criteria criteria = example.createCriteria();
+			criteria.andOrderIdEqualTo(order.getId());
+			this.scddOrderDetailMapper.deleteByExample(example);
 		} else {
+			order.setAmount(allAmount);
 			order.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			order.setCreateDate(today);
 			order.setModifyDate(today);
 			this.scddOrderMapper.insert(order);
 		}
-		List<ScddOrderDetail> details = order.getDetails();
 		if(details != null && details.size() > 0) {
 			for(ScddOrderDetail detail : details) {
-				detail.setOrderId(order.getId());
-				this.scddOrderDetailMapper.insert(detail);
+				if(detail != null && detail.getGoodsId() != null) {
+					detail.setOrderId(order.getId());
+					this.scddOrderDetailMapper.insert(detail);
+				}	
 			}
 		}
 	}

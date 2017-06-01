@@ -1,5 +1,6 @@
 package cn.scdd.jxc.controller.system;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import cn.scdd.jxc.entity.ScddGoods;
 import cn.scdd.jxc.entity.ScddSupplier;
 import cn.scdd.jxc.service.goods.GoodsService;
 import cn.scdd.jxc.service.supplier.SupplierService;
+import cn.scdd.jxc.util.KeyLabelVo;
 import cn.scdd.jxc.util.MessageContext;
 import cn.scdd.jxc.util.PageVo;
 
@@ -84,6 +86,36 @@ public class GoodsController extends BaseController {
 		}
 		
 		return modelAndView;
+	}
+	
+	/**
+	 * 商品返回
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/find")
+	public List<KeyLabelVo> find(String keyword, String agentflag) {
+		System.out.println("搜索关键字:" + keyword);
+		List<KeyLabelVo> reList = null;
+		List<ScddGoods> list = this.goodsService.searchAll();
+		if(list != null && list.size() > 0) {
+			reList = new ArrayList<KeyLabelVo>();
+			for(ScddGoods g : list) {
+				if(g.getShortName().indexOf(keyword) >= 0 || 
+						g.getName().indexOf(keyword) >= 0) {
+					KeyLabelVo kVo = new KeyLabelVo();
+					kVo.setKey(g.getId().toString());
+					kVo.setLabel(g.getName());
+					if("1".equals(agentflag)) {//代理价
+						kVo.setMark(g.getAgentPrice().toString());
+					} else {
+						kVo.setMark(g.getPrice().toString());
+					}
+					reList.add(kVo);
+				}
+			}
+		}
+		return reList;
 	}
 	
 	/**
