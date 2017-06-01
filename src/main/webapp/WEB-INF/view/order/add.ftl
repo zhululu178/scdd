@@ -57,7 +57,7 @@
 				<fieldset class="layui-elem-field">
 					<legend>订单明细</legend>
 					<div class="layui-field-box">
-						<table class="site-table table-hover">
+						<table class="site-table table-hover" id="goods_table">
 							<thead>
 								<tr>
 									<th>商品名称</th>
@@ -96,6 +96,7 @@
 					<div class="layui-input-block">
 						<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
 						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+						<a href="#" onclick="addTr();" class="layui-btn layui-btn-primary">新增商品</a>
 						<a href="${webRoot}/order/list" class="layui-btn layui-btn-primary">返回</a>
 					</div>
 				</div>
@@ -103,107 +104,103 @@
 		</div>
 		<script type="text/javascript" src="${webRoot}/plugins/layui/layui.js"></script>
 		<script>
-             $(function() {
-		    	//通用的自动补全
-		        var AutoComplete = function(node){
-		            this.node = $(node);
-		            this.hiddenCodeInp = this.node.closest('.table-fill').find('#code');
-		            this.posBox = this.node.closest('.table-fill-container');
-		            this.priceInp = this.posBox.parent().parent().find('#unitPrice');//单价
-		            this.datasource = (this.node).data('autoparams');
-		            this.rangeparams = (this.node).data('rangeparams');
-		            this._init();
-		        }
-		        AutoComplete.prototype={
-		            "constructor": AutoComplete,
-		            _init: function(){
-		                var that = this;
-		                (that.node).autocomplete({
-		                    appendTo: (this.posBox)[0],
-		                    mustMatch: true,
-		                    source: function( request, response ) {
-		                    alert($('body').find('.layui-form-select').find('.layui-this').attr('lay-value'));
-		                    	var userAgent = $('body').find('.layui-form-select').find('.layui-this').text().split("|");
-		                    	alert(userAgent[0]);
-		                    	alert(userAgent[1]);
-	                        	$.ajax({
-	                                url: that.datasource,
-	                                type: "POST",
-	                                dataType: "json",
-	                                data: {
-	                                	keyword: request.term,
-	                                    range: that.rangeparams,
-	                                    agentflag: userAgent[1]
-	                                },
-	                                success: function( data ) {
-	                                    var dataList = data;
-	                                    var matcher = new RegExp( $.ui.autocomplete.escapeRegex( request.term ), "i" );
-	                                    response( $.grep( dataList, function( value ) {
-	                                            value = value.label;
-	                                            if(matcher.test( value ) || matcher.test( that._normalize( value ) )){
-	                                                return matcher.test( value ) || matcher.test( that._normalize( value ) ) ;
-	                                            }
-	                                        })
+	    	//通用的自动补全
+	        var AutoComplete = function(node){
+	            this.node = $(node);
+	            this.hiddenCodeInp = this.node.closest('.table-fill').find('#code');
+	            this.posBox = this.node.closest('.table-fill-container');
+	            this.priceInp = this.posBox.parent().parent().find('#unitPrice');//单价
+	            this.datasource = (this.node).data('autoparams');
+	            this.rangeparams = (this.node).data('rangeparams');
+	            this._init();
+	        }
+	        AutoComplete.prototype={
+	            "constructor": AutoComplete,
+	            _init: function(){
+	                var that = this;
+	                (that.node).autocomplete({
+	                    appendTo: (this.posBox)[0],
+	                    mustMatch: true,
+	                    source: function( request, response ) {
+	                    	var userAgent = $('body').find('.layui-form-select').find('.layui-this').text().split("|");
+                        	$.ajax({
+                                url: that.datasource,
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                	keyword: request.term,
+                                    range: that.rangeparams,
+                                    agentflag: userAgent[1]
+                                },
+                                success: function( data ) {
+                                    var dataList = data;
+                                    var matcher = new RegExp( $.ui.autocomplete.escapeRegex( request.term ), "i" );
+                                    response( $.grep( dataList, function( value ) {
+                                            value = value.label;
+                                            if(matcher.test( value ) || matcher.test( that._normalize( value ) )){
+                                                return matcher.test( value ) || matcher.test( that._normalize( value ) ) ;
+                                            }
+                                        })
+
+                                    )
+                                }
+                            });
+	                    },
+	                    select: function( event, ul ) {
+	                        that.node.val( ul.item.value );
+	                        that.hiddenCodeInp.val(ul.item.key);
+	                        that.priceInp.val(ul.item.mark);
+	                        that.posBox.find(".J-controllerTip").remove();
+	                        return false;
+	                    },
+	                    minLength: 1,
+	                    response: function( event, ui ){
+	                        var uiArry = [],
+	                            idInps,
+	                            bool
+	                            ;
+	                        uiArry = ui.content;
+	                        idInps = that.node.val();
+	                        bool = that.posBox.find('.ui-autocomplete').css('display');
+	                        if(bool == "none"){
+	                            that.hiddenCodeInp.val('');
+	                            if(!that.posBox.find('.J-controllerTip').length){
+	                            	 that.posBox.append('<div class="controller-tip J-controllerTip"><p class="error"><span class="tip-txt required">该字段不能为空！</span></p></div>');
+	                                 
+	                            }
+	                        }
 	
-	                                    )
-	                                }
-	                            });
-		                    },
-		                    select: function( event, ul ) {
-		                        that.node.val( ul.item.value );
-		                        that.hiddenCodeInp.val(ul.item.key);
-		                        that.priceInp.val(ul.item.mark);
-		                        that.posBox.find(".J-controllerTip").remove();
-		                        return false;
-		                    },
-		                    minLength: 1,
-		                    response: function( event, ui ){
-		                        var uiArry = [],
-		                            idInps,
-		                            bool
-		                            ;
-		                        uiArry = ui.content;
-		                        idInps = that.node.val();
-		                        bool = that.posBox.find('.ui-autocomplete').css('display');
-		                        if(bool == "none"){
-		                            that.hiddenCodeInp.val('');
-		                            if(!that.posBox.find('.J-controllerTip').length){
-		                            	 that.posBox.append('<div class="controller-tip J-controllerTip"><p class="error"><span class="tip-txt required">该字段不能为空！</span></p></div>');
-		                                 
-		                            }
-		                        }
-		
-		                    },
-		                    close: function( event, ui ){
-		                        var uiArry = [],
-		                            idInps
-		                            ;
-		                        uiArry = ui.content;
-		                        idInps = that.node.val();
-		                        $uiMenuItem = that.posBox.find('.autocomplete-list-item');
-		                        if(($uiMenuItem.length === 1) && (idInps != $uiMenuItem.find(".valueKey").html())){
-		                            that.node.val('');
-		                        }
-		                    }
-		                })
-		                    .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-		                    return $( "<li class='autocomplete-list-item'>" )
-		                        .append( "<span class='code'>" + item.key + "</span><span class='valueKey'>" + item.label + "</span>" )
-		                        .appendTo( ul );
-		                };
-		
-		
-		
-		            },
-		            _normalize: function(term){
-		                var ret = "", accentMap=[];
-		                for ( var i = 0; i < term.length; i++ ) {
-		                    ret += accentMap[ term.charAt(i) ] || term.charAt(i);
-		                }
-		                return ret;
-		            }
-		        };
-             
+	                    },
+	                    close: function( event, ui ){
+	                        var uiArry = [],
+	                            idInps
+	                            ;
+	                        uiArry = ui.content;
+	                        idInps = that.node.val();
+	                        $uiMenuItem = that.posBox.find('.autocomplete-list-item');
+	                        if(($uiMenuItem.length === 1) && (idInps != $uiMenuItem.find(".valueKey").html())){
+	                            that.node.val('');
+	                        }
+	                    }
+	                })
+	                    .data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+	                    return $( "<li class='autocomplete-list-item'>" )
+	                        .append( "<span class='code'>" + item.key + "</span><span class='valueKey'>" + item.label + "</span>" )
+	                        .appendTo( ul );
+	                };
+	
+	
+	
+	            },
+	            _normalize: function(term){
+	                var ret = "", accentMap=[];
+	                for ( var i = 0; i < term.length; i++ ) {
+	                    ret += accentMap[ term.charAt(i) ] || term.charAt(i);
+	                }
+	                return ret;
+	            }
+	        };
+             $(function() {
              	//需要自动补全的商品明细信息
 				var $jQAutoComplete = $('body').find('.J-jQAutoComplete');
 		        $.each($jQAutoComplete, function(index, item){
@@ -235,10 +232,34 @@
                  });
              });
              
-             //删除当前明细
+             //删除当前商品
              function deleteTr(curTd) {
 	             if(confirm("确定要删除当前商品?")) {
 				 	$(curTd).parent().parent().remove();
+				 }
+             }
+             
+             var goodsIndex = <#if order?? && order.details??>${order.details?size}<#else>0</#if>;
+             var newTr = "<tr><td><div class='table-fill-container'><div class='table-fill'>" + 
+             			"<input type='text' class='J-jQAutoComplete' data-autoparams='${webRoot}/sys/goods/find' value=''></input>" +
+             			"<input type='text' style='display: none;' lay-verify='required' name='details[{orderDetail_index}].goodsId' id='code' value='' />" +
+             			"</div></div></td>" +
+             			"<td><input type='text' name='details[{orderDetail_index}].unitPrice' id='unitPrice' lay-verify='unitPrice' value='' /></td>" +
+             			"<td><input type='text' name='details[{orderDetail_index}].quantity' lay-verify='quantity' value='' /></td>" +
+             			"<td><input type='text' name='details[{orderDetail_index}].discount' value='' /></td>" +
+             			"<td><a href='#' onClick='deleteTr(this);' class='layui-btn layui-btn-mini'>删除</a></td></tr>";
+             //新增一个商品
+             function addTr() {
+	             if(confirm("确定要新增一个商品?")) {
+	             	var aTr = newTr.replace(/{orderDetail_index}/g, '' + goodsIndex);
+				 	$("#goods_table").append(aTr);
+				 	
+	             	//需要自动补全的商品明细信息
+					var $jQAutoComplete = $('body').find('.J-jQAutoComplete');
+			        $.each($jQAutoComplete, function(index, item){
+			            new AutoComplete(item);
+			        });
+			        goodsIndex = goodsIndex + 1;
 				 }
              }
              
