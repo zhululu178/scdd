@@ -43,7 +43,7 @@
 				</a>
 			</blockquote>
 			<fieldset class="layui-elem-field">
-				<legend>数据列表</legend>
+				<legend>订单列表</legend>
 				<div class="layui-field-box">
 					<table class="site-table table-hover">
 						<thead>

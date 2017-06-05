@@ -34,6 +34,7 @@ public class MemberServiceImpl implements MemberService {
 			member.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			member.setCreatorId(member.getModifierId());
 			member.setCreateDate(member.getModifyDate());
+			member.setPoints(0);
 			this.scddMemberMapper.insert(member);	
 		}
 	}

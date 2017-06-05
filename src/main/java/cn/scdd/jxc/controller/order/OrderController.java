@@ -1,5 +1,6 @@
 package cn.scdd.jxc.controller.order;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,10 @@ public class OrderController extends BaseController {
 	public ModelAndView add() {
 		ModelAndView modelAndView = new ModelAndView("order/add");
 		List<ScddUser> userList = this.userService.searchByUser(null);
+		ScddOrder order = new ScddOrder();
+		order.setUserId(this.getLoginUserId());
+		order.setTransDate(new Date());
+		modelAndView.addObject("order", order);
 		modelAndView.addObject("userList", userList);
 		return modelAndView;
 	}

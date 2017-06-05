@@ -91,11 +91,18 @@ public class OrderServiceImpl implements OrderService {
 				if(detail != null && detail.getGoodsId() != null) {
 					detail.setOrderId(order.getId());
 					this.scddOrderDetailMapper.insert(detail);
-				}	
+				}
 			}
 		}
+		//更新会员积分
+		ScddMember member = this.memberService.searchMemberById(order.getMemberId());
+		if(member != null) {
+			//金额四舍五入
+			member.setPoints(member.getPoints() + allAmount.setScale(0, BigDecimal.ROUND_HALF_UP).intValue());
+			this.memberService.saveMember(member);
+		}
 	}
-	
+
 	/**
 	 * 验证订单信息
 	 */

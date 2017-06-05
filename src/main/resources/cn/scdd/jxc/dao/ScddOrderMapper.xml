@@ -411,6 +411,7 @@
     <if test="transDateStart != null and transDateEnd != null">
       and o.TRANS_DATE between #{transDateStart} and #{transDateEnd}
     </if>
+    order by o.CREATE_DATE desc
   </select>
   <select id="selectHeavyOrderById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     SELECT o.*, d.id DETAIL_ID, d.DISCOUNT, d.GOODS_ID, d.ORDER_ID, d.QUANTITY, d.UNIT_PRICE,
