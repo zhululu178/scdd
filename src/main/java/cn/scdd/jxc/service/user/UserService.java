@@ -19,4 +19,12 @@ public interface UserService {
 	 * @return
 	 */
 	public ScddUser searchByCode(String code);
+	
+	/**
+	 * 根据用户手机号和密码登陆
+	 * @param phone
+	 * @param password
+	 * @return
+	 */
+	public ScddUser loginUser(String phone, String password);
 }

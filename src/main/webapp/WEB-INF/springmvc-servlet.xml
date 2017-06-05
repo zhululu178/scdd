@@ -12,9 +12,9 @@
 	<!-- 对静态资源文件的访问，交给default servlet handler处理 -->
 	<mvc:default-servlet-handler />
 	<!-- 启用spring mvc 注解 -->
-	<context:annotation-config />        
+	<context:annotation-config />
 	<!-- 默认的注解映射的支持 -->
-	<mvc:annotation-driven />        
+	<mvc:annotation-driven />
 	<!-- 设置使用注解的类所在的jar包 -->
 	<context:component-scan base-package="cn.scdd.jxc.controller"></context:component-scan>
 

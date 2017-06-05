@@ -33,6 +33,7 @@ public class UserServiceImpl implements UserService {
 			this.scddUserMapper.updateByPrimaryKey(userT);
 		} else {
 			user.setDeleteFlag(DeleteFlagEnum.NO.getCode());
+			user.setCreatorId(user.getModifierId());
 			user.setCreateDate(user.getModifyDate());
 			this.scddUserMapper.insert(user);	
 		}
@@ -71,6 +72,23 @@ public class UserServiceImpl implements UserService {
 		ScddUserExample.Criteria criteria = example.createCriteria();
 		if(StringUtils.isNotBlank(code)) {
 			criteria.andCodeEqualTo(code);
+		}
+		List<ScddUser> users = this.scddUserMapper.selectByExample(example);
+		if(users != null && users.size() != 1) {
+			return null;
+		} else {
+			return users.get(0);
+		}
+	}
+
+	public ScddUser loginUser(String phone, String password) {
+		ScddUserExample example = new ScddUserExample();
+		ScddUserExample.Criteria criteria = example.createCriteria();
+		if(StringUtils.isNotBlank(phone)) {
+			criteria.andPhoneEqualTo(phone);
+		}
+		if(StringUtils.isNotBlank(password)) {
+			criteria.andPasswordEqualTo(password);
 		}
 		List<ScddUser> users = this.scddUserMapper.selectByExample(example);
 		if(users != null && users.size() != 1) {

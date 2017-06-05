@@ -34,6 +34,7 @@ public class GoodsServiceImpl implements GoodsService {
 			this.scddGoodsMapper.updateByPrimaryKey(goodsT);
 		} else {
 			goods.setDeleteFlag(DeleteFlagEnum.NO.getCode());
+			goods.setCreatorId(goods.getModifierId());
 			goods.setCreateDate(goods.getModifyDate());
 			this.scddGoodsMapper.insert(goods);
 		}

@@ -63,6 +63,7 @@ public class OrderController extends BaseController {
 	@RequestMapping(value="/save",method=RequestMethod.POST)
 	public ModelAndView save(ScddOrder order) {
 		ModelAndView modelAndView = new ModelAndView("order/list");
+		order.setModifierId(this.getLoginUserId());//操作人
 		this.orderService.saveOrder(order);
 		return modelAndView;
 	}

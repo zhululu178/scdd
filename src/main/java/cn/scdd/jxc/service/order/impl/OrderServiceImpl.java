@@ -70,6 +70,7 @@ public class OrderServiceImpl implements OrderService {
 			orderT.setDeliveryAddr(order.getDeliveryAddr());
 			orderT.setTransDate(order.getTransDate());
 			orderT.setModifyDate(today);
+			orderT.setModifierId(order.getModifierId());
 			orderT.setAmount(allAmount);
 			this.scddOrderMapper.updateByPrimaryKey(orderT);
 			//删除已存在的订单明细
@@ -80,6 +81,7 @@ public class OrderServiceImpl implements OrderService {
 		} else {
 			order.setAmount(allAmount);
 			order.setDeleteFlag(DeleteFlagEnum.NO.getCode());
+			order.setCreatorId(order.getModifierId());
 			order.setCreateDate(today);
 			order.setModifyDate(today);
 			this.scddOrderMapper.insert(order);

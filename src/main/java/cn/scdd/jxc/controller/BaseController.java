@@ -11,6 +11,8 @@ import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
 
+import cn.scdd.jxc.util.Context;
+
 import com.github.pagehelper.PageHelper;
 
 import freemarker.template.Template;
@@ -70,5 +72,15 @@ public class BaseController {
 		} else {
 			PageHelper.startPage(1,PAGESIZE);
 		}
+	}
+	
+	/**
+	 * ��ʼ����ҳ��Ϣ
+	 */
+	protected Integer getLoginUserId() {
+		if(this.session != null && this.session.getAttribute(Context.SESSION_USER_ID) != null) {
+			return (Integer)this.session.getAttribute(Context.SESSION_USER_ID);
+		}
+		return null;
 	}
 }

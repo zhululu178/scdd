@@ -81,6 +81,7 @@ public class GoodsController extends BaseController {
 		if(this.goodsService.checkGoodsExists(goods)) {//��Ա�Ѿ�����
 			modelAndView = this.initEditPage(goods, true);
 		} else {
+			goods.setModifierId(this.getLoginUserId());
 			goodsService.saveGoods(goods);
 			modelAndView = new ModelAndView("sys/goods/list");
 		}

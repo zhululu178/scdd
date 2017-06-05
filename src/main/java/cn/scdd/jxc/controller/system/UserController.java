@@ -63,6 +63,7 @@ public class UserController extends BaseController {
 			modelAndView.addObject("user", user);
 			modelAndView.addObject(ERR_MSG, MessageContext.USER_ERR_MSG_EXIST);
 		} else {
+			user.setModifierId(this.getLoginUserId());
 			userService.saveUser(user);
 			modelAndView = new ModelAndView("sys/user/list");	
 		}

@@ -58,6 +58,7 @@ public class SupplierController extends BaseController {
 			modelAndView.addObject("supplier", supplier);
 			modelAndView.addObject(ERR_MSG, MessageContext.SUPPLIER_ERR_MSG_EXIST);
 		} else {
+			supplier.setModifierId(this.getLoginUserId());
 			supplierService.saveSupplier(supplier);
 			modelAndView = new ModelAndView("sys/supplier/list");
 		}

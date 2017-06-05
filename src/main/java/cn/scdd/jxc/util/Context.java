@@ -6,6 +6,10 @@ import java.util.Map;
 public class Context {
 	public final static String DATE_FORMAT = "yyyy-MM-dd";
 	
+	public final static String SESSION_USER_NAME = "SESSION_USER_NAME";
+	
+	public final static String SESSION_USER_ID = "SESSION_USER_ID";
+	
 	/**
 	 * 删除标记
 	 */

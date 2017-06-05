@@ -77,6 +77,7 @@ public class MemberController extends BaseController {
 		if(this.memberService.checkMemberExists(member)) {//��Ա�Ѿ�����
 			modelAndView = this.initEditPage(member, true);
 		} else {
+			member.setModifierId(this.getLoginUserId());
 			memberService.saveMember(member);
 			modelAndView = new ModelAndView("sys/member/list");
 		}
