@@ -11,6 +11,8 @@ public interface UserService {
 	
 	public ScddUser searchUserById(int id);
 	
+	public List<ScddUser> searchAll();
+	
 	public boolean checkUserExists(ScddUser record);
 	
 	/**

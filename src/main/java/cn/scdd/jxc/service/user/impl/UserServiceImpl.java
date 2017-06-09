@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import cn.scdd.jxc.dao.ScddUserMapper;
@@ -18,6 +20,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ScddUserMapper scddUserMapper;
 	
+	@CacheEvict(value="user",allEntries=true)
 	public void saveUser(ScddUser user) {
 		user.setModifyDate(new Date());
 		if(user != null && user.getId() != null) {
@@ -35,6 +38,7 @@ public class UserServiceImpl implements UserService {
 			user.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			user.setCreatorId(user.getModifierId());
 			user.setCreateDate(user.getModifyDate());
+			user.setPassword("scdd2017");
 			this.scddUserMapper.insert(user);	
 		}
 	}
@@ -96,5 +100,10 @@ public class UserServiceImpl implements UserService {
 		} else {
 			return users.get(0);
 		}
+	}
+
+	@Cacheable(value="user")
+	public List<ScddUser> searchAll() {
+		return this.searchByUser(null);
 	}
 }

@@ -12,4 +12,6 @@ public interface SupplierService {
 	public ScddSupplier searchSupplierById(int id);
 	
 	public boolean checkSupplierExists(ScddSupplier record);
+	
+	public List<ScddSupplier> searchAll();
 }

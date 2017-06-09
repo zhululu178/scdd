@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import cn.scdd.jxc.dao.ScddGoodsMapper;
@@ -18,6 +20,7 @@ public class GoodsServiceImpl implements GoodsService {
 	@Autowired
 	private ScddGoodsMapper scddGoodsMapper;
 	
+	@CacheEvict(value="goods",allEntries=true) 
 	public void saveGoods(ScddGoods goods) {
 		goods.setModifyDate(new Date());
 		if(goods != null && goods.getId() != null) {
@@ -83,6 +86,7 @@ public class GoodsServiceImpl implements GoodsService {
 		}
 	}
 
+	@Cacheable(value="goods")
 	public List<ScddGoods> searchAll() {
 		return this.searchByGoods(null);
 	}

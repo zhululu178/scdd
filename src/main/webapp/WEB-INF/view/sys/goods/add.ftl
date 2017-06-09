@@ -50,6 +50,29 @@
 				</div>
 				<div class="layui-form-item">
 					<div class="layui-inline">
+						<label class="layui-form-label">商品分类</label>
+						<div class="layui-input-inline">
+							<select name="classId">
+								<option value="">请选择商品分类</option>
+								<#if goodsClassList??>
+									<#list goodsClassList as goodsClass>
+									<#if goodsClass.children??>
+										<optgroup label="${goodsClass.name}">
+										<#list goodsClass.children as childGoodsClass>
+											<option value="${(childGoodsClass.id)!}" <#if goods?? && goods.classId?? && goods.classId == childGoodsClass.id>selected</#if>>${(childGoodsClass.name)!}</option>
+										</#list>
+										</optgroup>
+									<#else>
+										<optgroup label="${goodsClass.name}">
+											<option value="${goodsClass.id}" <#if goods?? && goods.classId?? && goods.classId == goodsClass.id>selected</#if>>${goodsClass.name}</option>
+										</optgroup>
+									</#if>
+									</#list>
+								</#if>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
 						<label class="layui-form-label">供应商</label>
 						<div class="layui-input-inline">
 							<select name="supplierId" lay-filter="aihao">

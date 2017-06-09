@@ -15,7 +15,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.scdd.jxc.controller.BaseController;
 import cn.scdd.jxc.entity.ScddGoods;
+import cn.scdd.jxc.entity.ScddGoodsClass;
 import cn.scdd.jxc.entity.ScddSupplier;
+import cn.scdd.jxc.service.goods.GoodsClassService;
 import cn.scdd.jxc.service.goods.GoodsService;
 import cn.scdd.jxc.service.supplier.SupplierService;
 import cn.scdd.jxc.util.KeyLabelVo;
@@ -31,6 +33,9 @@ public class GoodsController extends BaseController {
 	private SupplierService supplierService;
 	
 	@Autowired
+	private GoodsClassService goodsClassService;
+	
+	@Autowired
 	private GoodsService goodsService;
 	
 	/**
@@ -40,8 +45,10 @@ public class GoodsController extends BaseController {
 	@RequestMapping(value="/add",method=RequestMethod.GET)
 	public ModelAndView add() {
 		ModelAndView modelAndView = new ModelAndView("sys/goods/add");
-		List<ScddSupplier> supplierList = this.supplierService.searchBySupplier(null);
+		List<ScddSupplier> supplierList = this.supplierService.searchAll();
+		List<ScddGoodsClass> goodsClassList = this.goodsClassService.searchAll();
 		modelAndView.addObject("supplierList", supplierList);
+		modelAndView.addObject("goodsClassList", goodsClassList);
 		return modelAndView;
 	}
 	
@@ -62,9 +69,11 @@ public class GoodsController extends BaseController {
 	 */
 	private ModelAndView initEditPage(ScddGoods goods, boolean hasErr) {
 		ModelAndView modelAndView = new ModelAndView("sys/goods/add");
-		List<ScddSupplier> supplierList = this.supplierService.searchBySupplier(null);
+		List<ScddSupplier> supplierList = this.supplierService.searchAll();
+		List<ScddGoodsClass> goodsClassList = this.goodsClassService.searchAll();
 		modelAndView.addObject("goods", goods);
 		modelAndView.addObject("supplierList", supplierList);
+		modelAndView.addObject("goodsClassList", goodsClassList);
 		if(hasErr) {
 			modelAndView.addObject(ERR_MSG, MessageContext.GOODS_ERR_MSG_EXIST);
 		}

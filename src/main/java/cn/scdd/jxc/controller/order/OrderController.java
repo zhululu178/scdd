@@ -38,7 +38,7 @@ public class OrderController extends BaseController {
 	@RequestMapping(value="/add",method=RequestMethod.GET)
 	public ModelAndView add() {
 		ModelAndView modelAndView = new ModelAndView("order/add");
-		List<ScddUser> userList = this.userService.searchByUser(null);
+		List<ScddUser> userList = this.userService.searchAll();
 		ScddOrder order = new ScddOrder();
 		order.setUserId(this.getLoginUserId());
 		order.setTransDate(new Date());
@@ -55,7 +55,7 @@ public class OrderController extends BaseController {
 	public ModelAndView edit(@RequestParam int id) {
 		ModelAndView modelAndView = new ModelAndView("order/add");
 		ScddOrder order = this.orderService.searchOrderById(id);
-		List<ScddUser> userList = this.userService.searchByUser(null);
+		List<ScddUser> userList = this.userService.searchAll();
 		modelAndView.addObject("userList", userList);
 		modelAndView.addObject("order", order);
 		return modelAndView;

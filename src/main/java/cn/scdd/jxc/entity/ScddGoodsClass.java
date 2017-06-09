@@ -1,11 +1,15 @@
 package cn.scdd.jxc.entity;
 
+import java.util.List;
+
 public class ScddGoodsClass {
     private Integer id;
 
     private String name;
 
     private Integer parentId;
+    
+    private List<ScddGoodsClass> children;
 
     public Integer getId() {
         return id;
@@ -30,4 +34,24 @@ public class ScddGoodsClass {
     public void setParentId(Integer parentId) {
         this.parentId = parentId;
     }
+
+	public List<ScddGoodsClass> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<ScddGoodsClass> children) {
+		this.children = children;
+	}
+	
+	/**
+	 * 是否为跟节点
+	 * @return
+	 */
+	public boolean isParent() {
+		if(this.children == null || this.children.size() == 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
