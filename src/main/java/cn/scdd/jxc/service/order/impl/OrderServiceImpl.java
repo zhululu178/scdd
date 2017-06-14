@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 			}
 		}
 	}
-
+	
 	public void saveOrder(ScddOrder order) {
 		Date today = new Date();
 		List<ScddOrderDetail> details = order.getDetails();
@@ -62,16 +62,23 @@ public class OrderServiceImpl implements OrderService {
 				}
 			}
 		}
+		//积分
+		Integer points = allAmount.setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
 		if(order.getId() != null) {
 			ScddOrder orderT = this.scddOrderMapper.selectByPrimaryKey(order.getId());
 			orderT.setMemberId(order.getMemberId());
 			orderT.setUserId(order.getUserId());
+			BigDecimal oldActualAmount = orderT.getActualAmount();
 			orderT.setActualAmount(order.getActualAmount());
 			orderT.setDeliveryAddr(order.getDeliveryAddr());
 			orderT.setTransDate(order.getTransDate());
+			orderT.setExpressCompany(order.getExpressCompany());
+			orderT.setExpressNum(order.getExpressNum());
 			orderT.setModifyDate(today);
 			orderT.setModifierId(order.getModifierId());
 			orderT.setAmount(allAmount);
+			//新的金额-旧金额，获得差金额，形成新积分
+			points = orderT.getActualAmount().subtract(oldActualAmount).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
 			this.scddOrderMapper.updateByPrimaryKey(orderT);
 			//删除已存在的订单明细
 			ScddOrderDetailExample example = new ScddOrderDetailExample();
@@ -98,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
 		ScddMember member = this.memberService.searchMemberById(order.getMemberId());
 		if(member != null) {
 			//金额四舍五入
-			member.setPoints(member.getPoints() + allAmount.setScale(0, BigDecimal.ROUND_HALF_UP).intValue());
+			member.setPoints(member.getPoints() + points);
 			this.memberService.saveMember(member);
 		}
 	}

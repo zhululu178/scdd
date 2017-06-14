@@ -56,7 +56,7 @@ public class MemberServiceImpl implements MemberService {
 		if(list != null && list.size() > 0) {
 			for(ScddMember vo : list) {
 				if(StringUtils.isNotBlank(vo.getLevel())) {
-					vo.setLevel(Context.MemberLevelEnum.parse(vo.getLevel()).getTile());	
+					vo.setLevel(Context.MemberLevelEnum.parse(vo.getLevel()).getTitle());	
 				}
 			}
 		}

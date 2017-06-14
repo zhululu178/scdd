@@ -40,7 +40,47 @@ public class Context {
 		/**
 		 *@return  the title
 		 */
-		public String getTile() {
+		public String getTitle() {
+			return title;
+		}
+	}
+	
+	/**
+	 * 快递公司
+	 */
+	public enum ExpressCompanyEnum {
+		YT("YT","圆通"),
+		YD("YD","韵达"),
+		ZTO("ZTO","中通"),
+		SF("SF","顺丰"),
+		TT("TT","天天"),
+		EMS("EMS","EMS"),
+		STO("STO","申通");
+		/**code.*/
+		private final String code;
+		/**title.*/
+		private final String title;
+		/**
+		 * 构造方法
+		  *@param code code
+		  *@param title title
+		 */
+		ExpressCompanyEnum(final String code,String title) {
+			this.code = code;
+			this.title=title;
+		}
+		
+		/***
+		 * @return  the code
+		 */
+		public String getCode() {
+			return this.code;
+		}
+
+		/**
+		 *@return  the title
+		 */
+		public String getTitle() {
 			return title;
 		}
 	}
@@ -86,7 +126,7 @@ public class Context {
 			Map<String, String> map =
 				new LinkedHashMap<String, String>();
 			for (MemberLevelEnum v : MemberLevelEnum.values()) {
-				map.put(v.getCode(), v.getTile());
+				map.put(v.getCode(), v.getTitle());
 			}
 			return map;
 		}
@@ -101,7 +141,7 @@ public class Context {
 		/**
 		 *@return  the title
 		 */
-		public String getTile() {
+		public String getTitle() {
 			return title;
 		}
 	}

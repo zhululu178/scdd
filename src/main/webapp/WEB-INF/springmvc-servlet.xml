@@ -45,7 +45,7 @@
         <property name="freemarkerVariables">
             <map>
             	<!-- entry key="webRoot" value="http://192.168.0.105:8080/jxc-webapp" /-->
-            	<entry key="webRoot" value="http://192.168.110.176:8080/jxc-webapp" />
+            	<entry key="webRoot" value="http://127.0.0.1:8080/jxc-webapp" />
                 <entry key="xml_escape" value-ref="fmXmlEscape" />
             </map>
         </property>

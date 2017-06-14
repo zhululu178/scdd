@@ -19,7 +19,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public void afterCompletion(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception exc)
 			throws Exception {
-		System.out.println("afterCompletion........");
 	}
 
 	/**
@@ -28,7 +27,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		System.out.println("postHandle........");
 	}
 
 	/**

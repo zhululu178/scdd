@@ -19,6 +19,7 @@ import cn.scdd.jxc.entity.ScddOrderSearchPage;
 import cn.scdd.jxc.entity.ScddUser;
 import cn.scdd.jxc.service.order.OrderService;
 import cn.scdd.jxc.service.user.UserService;
+import cn.scdd.jxc.util.Context.ExpressCompanyEnum;
 import cn.scdd.jxc.util.PageVo;
 
 import com.github.pagehelper.Page;
@@ -31,6 +32,11 @@ public class OrderController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
+	/** 快递公司 */
+	private static ExpressCompanyEnum[] expressCompanyList;
+	static {
+		expressCompanyList = ExpressCompanyEnum.values();
+	}
 	/**
 	 * 新增订单
 	 * @return
@@ -44,6 +50,7 @@ public class OrderController extends BaseController {
 		order.setTransDate(new Date());
 		modelAndView.addObject("order", order);
 		modelAndView.addObject("userList", userList);
+		modelAndView.addObject("expressCompanyList", expressCompanyList);
 		return modelAndView;
 	}
 	
@@ -56,8 +63,9 @@ public class OrderController extends BaseController {
 		ModelAndView modelAndView = new ModelAndView("order/add");
 		ScddOrder order = this.orderService.searchOrderById(id);
 		List<ScddUser> userList = this.userService.searchAll();
-		modelAndView.addObject("userList", userList);
 		modelAndView.addObject("order", order);
+		modelAndView.addObject("userList", userList);
+		modelAndView.addObject("expressCompanyList", expressCompanyList);
 		return modelAndView;
 	}
 	

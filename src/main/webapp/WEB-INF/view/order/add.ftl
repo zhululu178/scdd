@@ -49,6 +49,27 @@
 					</div>
 				</div>
 				<div class="layui-form-item">
+					<div class="layui-inline">
+						<label class="layui-form-label">快递公司</label>
+						<div class="layui-input-inline">
+							<select name="expressCompany">
+								<option value="">请选择</option>
+								<#if expressCompanyList??>
+									<#list expressCompanyList as expressCompany>
+										<option value="${(expressCompany.code)!}" <#if order?? && order.expressCompany?? && order.expressCompany == expressCompany.code>selected</#if>>${(expressCompany.title)!}</option>
+									</#list>
+								</#if>
+							</select>
+						</div>
+					</div>
+					<div class="layui-inline">
+						<label class="layui-form-label">快递单号</label>
+						<div class="layui-input-inline">
+							<input type="text" name="expressNum" placeholder="请输入" value="${(order.expressNum)!}" autocomplete="off" class="layui-input">
+						</div>
+					</div>
+				</div>
+				<div class="layui-form-item">
 					<label class="layui-form-label">订单地址</label>
 					<div class="layui-input-block">
 						<input type="text" name="deliveryAddr" lay-verify="required" placeholder="请输入" value="${(order.deliveryAddr)!}" autocomplete="off" class="layui-input">
