@@ -24,6 +24,10 @@ public class ScddOrder {
 
     private String deliveryAddr;
 
+    private String expressCompany;
+
+    private String expressNum;
+    
     private String deleteFlag;
 
     private Date createDate;
@@ -166,5 +170,21 @@ public class ScddOrder {
 
 	public void setMember(ScddMember member) {
 		this.member = member;
+	}
+
+	public String getExpressCompany() {
+		return expressCompany;
+	}
+
+	public void setExpressCompany(String expressCompany) {
+		this.expressCompany = expressCompany;
+	}
+
+	public String getExpressNum() {
+		return expressNum;
+	}
+
+	public void setExpressNum(String expressNum) {
+		this.expressNum = expressNum;
 	}
 }
