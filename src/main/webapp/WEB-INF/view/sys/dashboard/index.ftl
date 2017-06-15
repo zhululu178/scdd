@@ -24,18 +24,18 @@
         // 指定图表的配置项和数据
         var option = {
             title: {
-                text: '销售额（单位：元）'
+                text: '销售额'
             },
             tooltip: {},
             legend: {
-                data:['销售额']
+                data:['销售额（单位：元）']
             },
             xAxis: {
                 data: []
             },
             yAxis: {},
             series: [{
-                name: '销售额',
+                name: '销售额（单位：元）',
                 type: 'line',
                 data: []
             }]
@@ -70,7 +70,7 @@
 				                data: dateArr
 				            },
 				            series: [{ 
-				                name: '销售额',
+				                name: '销售额（单位：元）',
 	                			type: 'line',
 				                data: amountArr,
 				                itemStyle: { normal: {label : {show: true}}}

@@ -32,6 +32,7 @@ public class UserServiceImpl implements UserService {
 			userT.setQq(user.getQq());
 			userT.setWx(user.getWx());
 			userT.setPhone(user.getPhone());
+			userT.setCode(user.getCode());
 			userT.setName(user.getName());
 			this.scddUserMapper.updateByPrimaryKey(userT);
 		} else {
