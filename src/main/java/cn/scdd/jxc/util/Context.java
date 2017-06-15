@@ -46,6 +46,43 @@ public class Context {
 	}
 	
 	/**
+	 * 每日金额报表类型
+	 */
+	public enum OrderDailyReportTypeEnum {
+		SEVEN_DAY("SEVEN_DAY","7日"),
+		MONTH_DAY("MONTH_DAY","一个月"),
+		CUR_WEEK("CUR_WEEK","本周"),
+		CUR_MONTH("CUR_MONTH","本月");
+		/**code.*/
+		private final String code;
+		/**title.*/
+		private final String title;
+		/**
+		 * 构造方法
+		  *@param code code
+		  *@param title title
+		 */
+		OrderDailyReportTypeEnum(final String code,String title) {
+			this.code = code;
+			this.title=title;
+		}
+		
+		/***
+		 * @return  the code
+		 */
+		public String getCode() {
+			return this.code;
+		}
+
+		/**
+		 *@return  the title
+		 */
+		public String getTitle() {
+			return title;
+		}
+	}
+	
+	/**
 	 * 快递公司
 	 */
 	public enum ExpressCompanyEnum {

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.scdd.jxc.dao.ScddReportMapper" >
+  <resultMap id="OrderAmountDaily" type="cn.scdd.jxc.entity.report.OrderAmountDaily" >
+    <id column="TRANS_DATE" property="transDate" jdbcType="VARCHAR" />
+    <result column="ACTUAL_AMOUNT" property="actualAmount" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectOrderAmountDaily" resultMap="OrderAmountDaily" parameterType="java.util.Map" >
+	select DATE_FORMAT(trans_date,'%Y%m%d') TRANS_DATE, sum(ACTUAL_AMOUNT) ACTUAL_AMOUNT, sum(AMOUNT) AMOUNT 
+	from scdd_order o inner join scdd_order_detail d on o.id = d.ORDER_ID
+	where o.DELETE_FLAG = '0' and o.TRANS_DATE between #{transStartDate,jdbcType=DATE} and #{transEndDate,jdbcType=DATE}
+	group by TRANS_DATE order by TRANS_DATE
+  </select>
+</mapper>

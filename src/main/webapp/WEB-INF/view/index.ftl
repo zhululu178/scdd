@@ -80,7 +80,7 @@
 					</ul>
 					<div class="layui-tab-content" style="min-height: 150px; padding: 5px 0 0 0;">
 						<div class="layui-tab-item layui-show">
-							<iframe src="order/list"></iframe>
+							<iframe src="sys/dashboard/index"></iframe>
 						</div>
 					</div>
 				</div>
