@@ -55,6 +55,6 @@ public class LoginController extends BaseController {
 	public String logout(HttpSession session) throws Exception {
 		// 清除Session
 		session.invalidate();
-		return "redirect:hello.action";
+		return "redirect:index";
 	}
 }
