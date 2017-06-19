@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import cn.scdd.jxc.dao.ScddMemberMapper;
 import cn.scdd.jxc.dao.ScddOrderDetailMapper;
 import cn.scdd.jxc.dao.ScddOrderMapper;
 import cn.scdd.jxc.entity.ScddGoods;
@@ -34,6 +35,8 @@ public class OrderServiceImpl implements OrderService {
 	private GoodsService goodsService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private ScddMemberMapper scddMemberMapper;
 	@Autowired
 	private ScddOrderMapper scddOrderMapper;
 	@Autowired
@@ -106,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
 		if(member != null) {
 			//金额四舍五入
 			member.setPoints(member.getPoints() + points);
-			this.memberService.saveMember(member);
+			this.scddMemberMapper.updateByPrimaryKey(member);
 		}
 	}
 
@@ -228,5 +231,31 @@ public class OrderServiceImpl implements OrderService {
 
 	public ScddOrder searchOrderById(int id) {
 		return this.scddOrderMapper.selectHeavyOrderById(id);
+	}
+
+	public boolean deleteOrder(Integer orderId) {
+		if(orderId != null) {
+			ScddOrder order = this.scddOrderMapper.selectByPrimaryKey(orderId);
+			if(order != null) {
+				//1. 删除会员积分
+				ScddMember member = this.memberService.searchMemberById(order.getMemberId());
+				if(member != null) {
+					//金额四舍五入
+					Integer points = order.getActualAmount().setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
+					//删除订单的积分
+					member.setPoints(member.getPoints() - points);
+					this.scddMemberMapper.updateByPrimaryKey(member);
+				}
+				//2. 删除订单明细
+				ScddOrderDetailExample example = new ScddOrderDetailExample();
+				ScddOrderDetailExample.Criteria criteria = example.createCriteria();
+				criteria.andOrderIdEqualTo(orderId);
+				this.scddOrderDetailMapper.deleteByExample(example);
+				//3. 删除订单
+				this.scddOrderMapper.deleteByPrimaryKey(orderId);
+				return true;
+			}
+		}
+		return false;
 	}
 }

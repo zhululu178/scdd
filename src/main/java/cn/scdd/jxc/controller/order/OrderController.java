@@ -20,6 +20,7 @@ import cn.scdd.jxc.entity.ScddUser;
 import cn.scdd.jxc.service.order.OrderService;
 import cn.scdd.jxc.service.user.UserService;
 import cn.scdd.jxc.util.Context.ExpressCompanyEnum;
+import cn.scdd.jxc.util.JsonResult;
 import cn.scdd.jxc.util.PageVo;
 
 import com.github.pagehelper.Page;
@@ -79,6 +80,25 @@ public class OrderController extends BaseController {
 		order.setModifierId(this.getLoginUserId());//操作人
 		this.orderService.saveOrder(order);
 		return modelAndView;
+	}
+	
+	/**
+	 * 删除订单
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/delete",method=RequestMethod.POST)
+	public JsonResult delete(Integer orderId) {
+		JsonResult result = new JsonResult();
+		boolean success = this.orderService.deleteOrder(orderId);
+		if(success) {
+			result.setCode(1);
+			result.setMsg("删除订单成功.");
+		} else {
+			result.setCode(2);
+			result.setMsg("删除订单失败.");
+		}
+		return result;
 	}
 	
 	/**

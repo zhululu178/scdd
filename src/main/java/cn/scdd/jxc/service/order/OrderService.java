@@ -21,4 +21,10 @@ public interface OrderService {
 	 * @return
 	 */
 	public List<String> saveOrders(Date transDate, String[] orderArr);
+	
+	/**
+	 * 删除订单
+	 * @param orderId
+	 */
+	public boolean deleteOrder(Integer orderId);
 }

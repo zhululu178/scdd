@@ -108,6 +108,22 @@
 			 });
 			 // 初始化运行
 			 page(1);
+			 
+			 //删除订单
+			 function del(curA, orderId) {
+			 	$.ajax({
+					url: "${webRoot}/order/delete?orderId=" + orderId,
+					type : 'POST',
+					success : function(data) {
+						alert(data.msg);
+						if(data.code == '1') {
+							alert(data.code);
+							$(curA).parent().parent().remove();
+							alert('aa');
+						}
+					}
+				});
+			 };
 		</script>
 	</body>
 
