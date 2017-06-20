@@ -5,7 +5,7 @@
 	<link rel="stylesheet" href="${webRoot}/css/table.css" />
 	<body>
 		<div class="admin-main">
-			<form id="search_form">
+			<form id="search_form" method="post" action="${webRoot}/order/exportexcel">
 			<div class="layui-form-item">
 				<div class="layui-inline">
 					<label class="layui-form-label">会员姓名</label>
@@ -40,6 +40,9 @@
 				</a>
 				<a href="javascript:;" class="layui-btn layui-btn-small" id="search">
 					<i class="layui-icon">&#xe615;</i> 搜索
+				</a>
+				<a href="javascript:;" class="layui-btn layui-btn-small" id="export">
+					<i class="layui-icon">&#xe615;</i> 导出excel
 				</a>
 			</blockquote>
 			<fieldset class="layui-elem-field">
@@ -100,12 +103,19 @@
 					}
 				});
 			 };
+			 //查询
 			 $('#search').on('click', function() {
 				$.post("${webRoot}/order/list", $("#search_form").serialize(),
 			    function(data) {
 			    	page(1);
 			    });
 			 });
+			 
+			 //下载excel
+			 $('#export').on('click', function() {
+				document.getElementById("search_form").submit();
+			 });
+			 
 			 // 初始化运行
 			 page(1);
 			 

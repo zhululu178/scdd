@@ -22,6 +22,7 @@ import cn.scdd.jxc.service.user.UserService;
 import cn.scdd.jxc.util.Context.ExpressCompanyEnum;
 import cn.scdd.jxc.util.JsonResult;
 import cn.scdd.jxc.util.PageVo;
+import cn.scdd.jxc.util.excel.DataExportUtil;
 
 import com.github.pagehelper.Page;
 
@@ -132,5 +133,21 @@ public class OrderController extends BaseController {
 			pageVo.setContents(this.getContentFromTemplate("order/records.ftl", contents));
 		}
 		return pageVo;
+	}
+	
+	/**
+	 * excel导出
+	 * @return
+	 */
+	@RequestMapping(value="/exportexcel",method=RequestMethod.POST)
+	public String exportExcel(ScddOrderSearchPage order) {
+		List<ScddOrderSearchPage> list = this.orderService.searchByOrder(order);
+		try {
+			DataExportUtil.downloadExcelFile("订单导出", list, this.response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bean>
+	<property name="memberName" text="会员姓名" type="String" width="15" />
+	<property name="memberPhone" text="会员手机" type="String" width="15" />
+	<property name="amount" text="订单总价" type="String" width="15" />
+	<property name="actualAmount" text="订单实际总价" type="String" width="15" />
+	<property name="transDate" text="交易日期" type="String" width="10" />
+	<property name="userName"  text="销售人员" type="String" width="15"/>
+	<property name="deliveryAddr" text="订单地址" type="String" width="30" />
+</bean>
