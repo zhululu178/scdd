@@ -431,7 +431,7 @@
 		o.ID, o.TRANS_DATE, o.MANUAL_FLAG, o.AMOUNT, o.ACTUAL_AMOUNT, o.DELIVERY_ADDR, 
 		o.DELETE_FLAG, o.CREATE_DATE, o.CREATOR_ID, o.MODIFY_DATE, o.MODIFIER_ID
 	from scdd_order o,scdd_member m,scdd_user u
-	where o.MEMBER_ID = m.ID and o.USER_ID = u.ID
+	where o.MEMBER_ID = m.ID and o.USER_ID = u.ID and o.DELETE_FLAG = '0'
     <if test="memberName != null">
       and m.name like CONCAT('%',#{memberName},'%')
     </if>

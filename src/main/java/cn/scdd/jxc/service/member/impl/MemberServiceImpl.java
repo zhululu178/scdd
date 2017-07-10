@@ -13,6 +13,7 @@ import cn.scdd.jxc.entity.ScddMemberExample;
 import cn.scdd.jxc.service.member.MemberService;
 import cn.scdd.jxc.util.Context;
 import cn.scdd.jxc.util.Context.DeleteFlagEnum;
+import cn.scdd.jxc.util.Context.MemberLevelEnum;
 
 @Service("memberService")
 public class MemberServiceImpl implements MemberService {
@@ -32,6 +33,8 @@ public class MemberServiceImpl implements MemberService {
 			this.scddMemberMapper.updateByPrimaryKey(memberT);
 		} else {
 			member.setDeleteFlag(DeleteFlagEnum.NO.getCode());
+			member.setLevel(MemberLevelEnum.NORMAL.getCode());
+			member.setGender("2");
 			member.setCreatorId(member.getModifierId());
 			member.setCreateDate(member.getModifyDate());
 			member.setPoints(0);

@@ -127,9 +127,7 @@
 					success : function(data) {
 						alert(data.msg);
 						if(data.code == '1') {
-							alert(data.code);
 							$(curA).parent().parent().remove();
-							alert('aa');
 						}
 					}
 				});

@@ -133,10 +133,15 @@ public class OrderServiceImpl implements OrderService {
 //					String memberName = orderInfoArr[1];
 					ScddMember member = this.memberService.searchMemberByPhone(orderInfoArr[2]);
 					if(member == null) {//会员不存在
-						errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单会员的手机号码" + orderInfoArr[2] + "不存在.");
-					} else {
-						order.setMemberId(member.getId());
+//						errMsgList.add("订单[" + (i+1) +"]-" + orderArr[i] + "  此订单会员的手机号码" + orderInfoArr[2] + "不存在.");
+						member = new ScddMember();
+						member.setPhone(orderInfoArr[2]);
+						member.setName(orderInfoArr[1]);
+						member.setAddress(orderInfoArr[0]);
+						member.setModifyDate(new Date());
+						memberService.saveMember(member);
 					}
+					order.setMemberId(member.getId());
 					//2. 系统销售人员信息
 					boolean isActivityOrder = false;
 					String salesInfo = orderInfoArr[orderInfoArr.length - 1];
