@@ -26,6 +26,8 @@ public class ScddOrderSearchPage {
     private BigDecimal amount;
 
     private BigDecimal actualAmount;
+    
+    private BigDecimal purchaseAmount;
 
     private String deliveryAddr;
 
@@ -187,5 +189,13 @@ public class ScddOrderSearchPage {
 
 	public void setTransDateEnd(Date transDateEnd) {
 		this.transDateEnd = transDateEnd;
+	}
+
+	public BigDecimal getPurchaseAmount() {
+		return purchaseAmount;
+	}
+
+	public void setPurchaseAmount(BigDecimal purchaseAmount) {
+		this.purchaseAmount = purchaseAmount;
 	}
 }

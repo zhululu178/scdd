@@ -51,6 +51,9 @@ public class GoodsServiceImpl implements GoodsService {
 			if(StringUtils.isNotBlank(goods.getName())) {
 				criteria.andNameLike("%" + goods.getName() + "%");
 			}
+			if(StringUtils.isNotBlank(goods.getShortName())) {
+				criteria.andShortNameLike("%" + goods.getShortName() + "%");
+			}
 			criteria.andDeleteFlagEqualTo(DeleteFlagEnum.NO.getCode());
 		}
 		

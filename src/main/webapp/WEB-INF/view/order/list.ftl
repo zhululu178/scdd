@@ -54,8 +54,8 @@
 								<th><input type="checkbox" id="selected-all"></th>
 								<th>会员姓名</th>
 								<th>会员手机</th>
-								<th>订单总价</th>
-								<th>订单实际总价</th>
+								<th>成本</th>
+								<th>订单实际</th>
 								<th>交易日期</th>
 								<th>销售人员</th>
 								<th>订单地址</th>

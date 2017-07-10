@@ -53,15 +53,23 @@ public class OrderServiceImpl implements OrderService {
 	public void saveOrder(ScddOrder order) {
 		Date today = new Date();
 		List<ScddOrderDetail> details = order.getDetails();
-		BigDecimal allAmount = new BigDecimal(0);//订单的总金额
+		BigDecimal allAmount = new BigDecimal(0);//订单系统计算的总金额
+		BigDecimal allPurchaseAmount = new BigDecimal(0);//订单成本总金额
 		if(details != null && details.size() > 0) {
 			for(ScddOrderDetail detail : details) {
 				if(detail != null && detail.getGoodsId() != null) {
-					BigDecimal amout = detail.getUnitPrice().multiply(new BigDecimal(detail.getQuantity()));
-					if(detail.getDiscount() != null && detail.getDiscount().doubleValue() != 0) {//有折扣
-						amout = amout.multiply(detail.getDiscount());
+					ScddGoods goods = goodsService.searchGoodsById(detail.getGoodsId());
+					if(goods != null) {
+						//1. 系统计算金额
+						BigDecimal amout = detail.getUnitPrice().multiply(new BigDecimal(detail.getQuantity()));
+						if(detail.getDiscount() != null && detail.getDiscount().doubleValue() != 0) {//有折扣
+							amout = amout.multiply(detail.getDiscount());
+						}
+						allAmount = allAmount.add(amout);
+						//2. 成本
+						BigDecimal purchaseAmout = goods.getPurchasePrice().multiply(new BigDecimal(detail.getQuantity()));
+						allPurchaseAmount = allPurchaseAmount.add(purchaseAmout);
 					}
-					allAmount = allAmount.add(amout);
 				}
 			}
 		}
@@ -80,6 +88,7 @@ public class OrderServiceImpl implements OrderService {
 			orderT.setModifyDate(today);
 			orderT.setModifierId(order.getModifierId());
 			orderT.setAmount(allAmount);
+			orderT.setPurchaseAmount(allPurchaseAmount);
 			//新的金额-旧金额，获得差金额，形成新积分
 			points = orderT.getActualAmount().subtract(oldActualAmount).setScale(0, BigDecimal.ROUND_HALF_UP).intValue();
 			this.scddOrderMapper.updateByPrimaryKey(orderT);
@@ -90,6 +99,7 @@ public class OrderServiceImpl implements OrderService {
 			this.scddOrderDetailMapper.deleteByExample(example);
 		} else {
 			order.setAmount(allAmount);
+			order.setPurchaseAmount(allPurchaseAmount);
 			order.setDeleteFlag(DeleteFlagEnum.NO.getCode());
 			order.setCreatorId(order.getModifierId());
 			order.setCreateDate(today);
@@ -240,7 +250,10 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	public List<ScddOrderSearchPage> searchByOrder(ScddOrderSearchPage order) {
-		return this.scddOrderMapper.selectByOrder(order);
+		List<ScddOrderSearchPage> pageList = this.scddOrderMapper.selectByOrder(order);
+		ScddOrderSearchPage pageSum = this.scddOrderMapper.selectByOrderSum(order);		
+		pageList.add(pageSum);
+		return pageList;
 	}
 
 	public ScddOrder searchOrderById(int id) {

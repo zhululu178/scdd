@@ -36,4 +36,6 @@ public interface ScddOrderMapper {
     int updateByPrimaryKey(ScddOrder record);
     
     List<ScddOrderSearchPage> selectByOrder(ScddOrderSearchPage order);
+    
+    ScddOrderSearchPage selectByOrderSum(ScddOrderSearchPage order);
 }

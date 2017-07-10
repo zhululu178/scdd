@@ -9,6 +9,7 @@
     <result column="MANUAL_FLAG" jdbcType="CHAR" property="manualFlag" />
     <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
     <result column="ACTUAL_AMOUNT" jdbcType="DECIMAL" property="actualAmount" />
+    <result column="PURCHASE_AMOUNT" jdbcType="DECIMAL" property="purchaseAmount" />
     <result column="DELIVERY_ADDR" jdbcType="VARCHAR" property="deliveryAddr" />
     <result column="EXPRESS_COMPANY" jdbcType="VARCHAR" property="expressCompany" />
     <result column="EXPRESS_NUM" jdbcType="VARCHAR" property="expressNum" />
@@ -112,7 +113,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, MEMBER_ID, USER_ID, TRANS_DATE, MANUAL_FLAG, AMOUNT, ACTUAL_AMOUNT, DELIVERY_ADDR, 
+    ID, MEMBER_ID, USER_ID, TRANS_DATE, MANUAL_FLAG, AMOUNT, ACTUAL_AMOUNT, PURCHASE_AMOUNT, DELIVERY_ADDR, 
     EXPRESS_COMPANY, EXPRESS_NUM, DELETE_FLAG, CREATE_DATE, CREATOR_ID, MODIFY_DATE, 
     MODIFIER_ID
   </sql>
@@ -152,13 +153,13 @@
 	</selectKey>
     insert into scdd_order (ID, MEMBER_ID, USER_ID, 
       TRANS_DATE, MANUAL_FLAG, AMOUNT, 
-      ACTUAL_AMOUNT, DELIVERY_ADDR, EXPRESS_COMPANY, 
+      ACTUAL_AMOUNT, PURCHASE_AMOUNT, DELIVERY_ADDR, EXPRESS_COMPANY, 
       EXPRESS_NUM, DELETE_FLAG, CREATE_DATE, 
       CREATOR_ID, MODIFY_DATE, MODIFIER_ID
       )
     values (#{id,jdbcType=INTEGER}, #{memberId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{transDate,jdbcType=DATE}, #{manualFlag,jdbcType=CHAR}, #{amount,jdbcType=DECIMAL}, 
-      #{actualAmount,jdbcType=DECIMAL}, #{deliveryAddr,jdbcType=VARCHAR}, #{expressCompany,jdbcType=VARCHAR}, 
+      #{actualAmount,jdbcType=DECIMAL}, #{purchaseAmount,jdbcType=DECIMAL}, #{deliveryAddr,jdbcType=VARCHAR}, #{expressCompany,jdbcType=VARCHAR}, 
       #{expressNum,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=CHAR}, #{createDate,jdbcType=TIMESTAMP}, 
       #{creatorId,jdbcType=INTEGER}, #{modifyDate,jdbcType=TIMESTAMP}, #{modifierId,jdbcType=INTEGER}
       )
@@ -186,6 +187,9 @@
       </if>
       <if test="actualAmount != null">
         ACTUAL_AMOUNT,
+      </if>
+      <if test="purchaseAmount != null">
+        PURCHASE_AMOUNT,
       </if>
       <if test="deliveryAddr != null">
         DELIVERY_ADDR,
@@ -233,6 +237,9 @@
       </if>
       <if test="actualAmount != null">
         #{actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseAmount != null">
+        #{purchaseAmount,jdbcType=DECIMAL},
       </if>
       <if test="deliveryAddr != null">
         #{deliveryAddr,jdbcType=VARCHAR},
@@ -290,6 +297,9 @@
       <if test="record.actualAmount != null">
         ACTUAL_AMOUNT = #{record.actualAmount,jdbcType=DECIMAL},
       </if>
+      <if test="purchaseAmount != null">
+        PURCHASE_AMOUNT = #{record.purchaseAmount,jdbcType=DECIMAL},
+      </if>
       <if test="record.deliveryAddr != null">
         DELIVERY_ADDR = #{record.deliveryAddr,jdbcType=VARCHAR},
       </if>
@@ -328,6 +338,7 @@
       MANUAL_FLAG = #{record.manualFlag,jdbcType=CHAR},
       AMOUNT = #{record.amount,jdbcType=DECIMAL},
       ACTUAL_AMOUNT = #{record.actualAmount,jdbcType=DECIMAL},
+      PURCHASE_AMOUNT = #{record.purchaseAmount,jdbcType=DECIMAL},
       DELIVERY_ADDR = #{record.deliveryAddr,jdbcType=VARCHAR},
       EXPRESS_COMPANY = #{record.expressCompany,jdbcType=VARCHAR},
       EXPRESS_NUM = #{record.expressNum,jdbcType=VARCHAR},
@@ -360,6 +371,9 @@
       </if>
       <if test="actualAmount != null">
         ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="purchaseAmount != null">
+        PURCHASE_AMOUNT = #{purchaseAmount,jdbcType=DECIMAL},
       </if>
       <if test="deliveryAddr != null">
         DELIVERY_ADDR = #{deliveryAddr,jdbcType=VARCHAR},
@@ -396,6 +410,7 @@
       MANUAL_FLAG = #{manualFlag,jdbcType=CHAR},
       AMOUNT = #{amount,jdbcType=DECIMAL},
       ACTUAL_AMOUNT = #{actualAmount,jdbcType=DECIMAL},
+      PURCHASE_AMOUNT = #{purchaseAmount,jdbcType=DECIMAL},
       DELIVERY_ADDR = #{deliveryAddr,jdbcType=VARCHAR},
       EXPRESS_COMPANY = #{expressCompany,jdbcType=VARCHAR},
       EXPRESS_NUM = #{expressNum,jdbcType=VARCHAR},
@@ -419,6 +434,7 @@
     <result column="MANUAL_FLAG" jdbcType="CHAR" property="manualFlag" />
     <result column="AMOUNT" jdbcType="DECIMAL" property="amount" />
     <result column="ACTUAL_AMOUNT" jdbcType="DECIMAL" property="actualAmount" />
+    <result column="PURCHASE_AMOUNT" jdbcType="DECIMAL" property="purchaseAmount" />
     <result column="DELIVERY_ADDR" jdbcType="VARCHAR" property="deliveryAddr" />
     <result column="DELETE_FLAG" jdbcType="CHAR" property="deleteFlag" />
     <result column="CREATE_DATE" jdbcType="TIMESTAMP" property="createDate" />
@@ -428,8 +444,26 @@
   </resultMap>
   <select id="selectByOrder" parameterType="cn.scdd.jxc.entity.ScddOrder" resultMap="PageSearchResult">
     select o.MEMBER_ID, m.NAME MEMBER_NAME, m.PHONE MEMBER_PHONE, o.USER_ID, u.NAME USER_NAME, 
-		o.ID, o.TRANS_DATE, o.MANUAL_FLAG, o.AMOUNT, o.ACTUAL_AMOUNT, o.DELIVERY_ADDR, 
+		o.ID, o.TRANS_DATE, o.MANUAL_FLAG, o.AMOUNT, o.ACTUAL_AMOUNT, o.PURCHASE_AMOUNT, o.DELIVERY_ADDR, 
 		o.DELETE_FLAG, o.CREATE_DATE, o.CREATOR_ID, o.MODIFY_DATE, o.MODIFIER_ID
+	from scdd_order o,scdd_member m,scdd_user u
+	where o.MEMBER_ID = m.ID and o.USER_ID = u.ID and o.DELETE_FLAG = '0'
+    <if test="memberName != null">
+      and m.name like CONCAT('%',#{memberName},'%')
+    </if>
+    <if test="memberPhone != null">
+      and m.phone like CONCAT('%',#{memberPhone},'%')
+    </if>
+    <if test="userName != null">
+      and u.name like CONCAT('%',#{userName},'%')
+    </if>
+    <if test="transDateStart != null and transDateEnd != null">
+      and o.TRANS_DATE between #{transDateStart} and #{transDateEnd}
+    </if>
+    order by o.CREATE_DATE desc
+  </select>
+  <select id="selectByOrderSum" parameterType="cn.scdd.jxc.entity.ScddOrder" resultMap="PageSearchResult">
+    select count(1) MEMBER_PHONE,sum(o.PURCHASE_AMOUNT) PURCHASE_AMOUNT, sum(o.ACTUAL_AMOUNT) ACTUAL_AMOUNT
 	from scdd_order o,scdd_member m,scdd_user u
 	where o.MEMBER_ID = m.ID and o.USER_ID = u.ID and o.DELETE_FLAG = '0'
     <if test="memberName != null">

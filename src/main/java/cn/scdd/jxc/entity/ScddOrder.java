@@ -19,7 +19,9 @@ public class ScddOrder {
     private String manualFlag;
 
     private BigDecimal amount;
-
+    
+    private BigDecimal purchaseAmount;
+    
     private BigDecimal actualAmount;
 
     private String deliveryAddr;
@@ -186,5 +188,13 @@ public class ScddOrder {
 
 	public void setExpressNum(String expressNum) {
 		this.expressNum = expressNum;
+	}
+
+	public BigDecimal getPurchaseAmount() {
+		return purchaseAmount;
+	}
+
+	public void setPurchaseAmount(BigDecimal purchaseAmount) {
+		this.purchaseAmount = purchaseAmount;
 	}
 }

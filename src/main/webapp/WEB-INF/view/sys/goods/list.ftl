@@ -16,7 +16,7 @@
 				<div class="layui-inline">
 					<label class="layui-form-label">商品简称</label>
 					<div class="layui-input-block">
-						<input type="text" name="shotName" placeholder="请输入" value="${(goods.phone)!}" class="layui-input"/>
+						<input type="text" name="shortName" placeholder="请输入" value="${(goods.shortName)!}" class="layui-input"/>
 					</div>
 				</div>
 			</div>
