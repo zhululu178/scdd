@@ -20,7 +20,7 @@ public interface OrderService {
 	 * @param orderArr
 	 * @return
 	 */
-	public List<String> saveOrders(Date transDate, String[] orderArr);
+	public List<String> saveOrders(Integer operatorId, Date transDate, String[] orderArr);
 	
 	/**
 	 * 删除订单

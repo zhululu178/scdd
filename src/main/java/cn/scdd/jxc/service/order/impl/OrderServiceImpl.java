@@ -116,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
 	/**
 	 * 验证订单信息
 	 */
-	public List<String> saveOrders(Date transDate, String[] orderArr) {
+	public List<String> saveOrders(Integer operatorId, Date transDate, String[] orderArr) {
 		List<String> errMsgList = new ArrayList<String>();
 		List<ScddOrder> orderList = new ArrayList<ScddOrder>(orderArr.length);
 		for(int i=0;i<orderArr.length;i++) {
@@ -139,9 +139,11 @@ public class OrderServiceImpl implements OrderService {
 						member.setName(orderInfoArr[1]);
 						member.setAddress(orderInfoArr[0]);
 						member.setModifyDate(new Date());
-						memberService.saveMember(member);
+						member.setModifierId(operatorId);
+						order.setMember(member);
+					} else {
+						order.setMemberId(member.getId());
 					}
-					order.setMemberId(member.getId());
 					//2. 系统销售人员信息
 					boolean isActivityOrder = false;
 					String salesInfo = orderInfoArr[orderInfoArr.length - 1];
@@ -196,6 +198,7 @@ public class OrderServiceImpl implements OrderService {
 										}
 									}
 									orderDetail.setUnitPrice(unitPrice);
+									orderDetail.setPurchasePrice(goods.getPurchasePrice());
 									allGoodsAmount = allGoodsAmount.add(unitPrice.multiply(new BigDecimal(orderDetail.getQuantity())));//计算总金额
 									order.getDetails().add(orderDetail);
 								} else {
@@ -225,6 +228,12 @@ public class OrderServiceImpl implements OrderService {
 	private void saveOrderList(List<ScddOrder> orderList) {
 		if(orderList != null && orderList.size() > 0) {
 			for(ScddOrder order : orderList) {
+				//导入的时候，新增的用户
+				if(order.getMember() != null) {
+					ScddMember member = order.getMember();
+					this.memberService.saveMember(member);
+					order.setMemberId(member.getId());
+				}	
 				this.saveOrder(order);
 			}
 		}

@@ -14,18 +14,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.scdd.jxc.controller.BaseController;
 import cn.scdd.jxc.service.order.OrderService;
 import cn.scdd.jxc.util.Context;
 
 @Controller
 @RequestMapping(value="/order/import")
-public class OrderImportController {
+public class OrderImportController extends BaseController {
 	private final SimpleDateFormat formatter = new SimpleDateFormat(Context.DATE_FORMAT);
 	@Autowired
 	private OrderService orderService;
-	public OrderImportController() {
-		System.out.println("Init OrderImportController");
-	}
 	
 	/**
 	 * ���������ʼ��
@@ -42,7 +40,7 @@ public class OrderImportController {
 		return modelAndView;
 	}
 	public static void main(String[] args) {
-		//System.out.println("杭州市桐庐县迎春南路建业大厦1005/郑苏建/13082857999/芝麻12个/豆沙12个/冬笋6个/荠菜6个/154（3点）【fi】".split("/").length);
+		//System.out.println("杭州市桐庐县迎春南路建业大厦1005/郑苏/13082857911/玫瑰花饼12个/云a片糕12个/154（3点）【FIFI】".split("/").length);
         String input = "jdiwo3495jis90.5jsie4dss56djiw9";
         String regex = "\\d+(\\.\\d+)?";
         Pattern pattern =  Pattern.compile(regex);
@@ -69,7 +67,8 @@ public class OrderImportController {
 		}
 		if(!StringUtils.isEmpty(orderDetails)) {
 			String[] orderArr = orderDetails.split("\r\n");
-			List<String> msg = this.orderService.saveOrders(transDatet, orderArr);
+			Integer operatorId = (Integer)(this.session.getAttribute(Context.SESSION_USER_ID));
+			List<String> msg = this.orderService.saveOrders(operatorId, transDatet, orderArr);
 			modelAndView.addObject("transDate", transDate);
 			modelAndView.addObject("orderDetails", orderDetails);
 			modelAndView.addObject("import_error_list", msg);
