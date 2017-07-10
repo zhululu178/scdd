@@ -405,6 +405,66 @@ public class ScddOrderDetailExample {
             return (Criteria) this;
         }
 
+        public Criteria andPurchasePriceIsNull() {
+            addCriterion("PURCHASE_PRICE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceIsNotNull() {
+            addCriterion("PURCHASE_PRICE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceEqualTo(BigDecimal value) {
+            addCriterion("PURCHASE_PRICE =", value, "purchasePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceNotEqualTo(BigDecimal value) {
+            addCriterion("PURCHASE_PRICE <>", value, "purchasePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceGreaterThan(BigDecimal value) {
+            addCriterion("PURCHASE_PRICE >", value, "purchasePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("PURCHASE_PRICE >=", value, "purchasePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceLessThan(BigDecimal value) {
+            addCriterion("PURCHASE_PRICE <", value, "purchasePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("PURCHASE_PRICE <=", value, "purchasePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceIn(List<BigDecimal> values) {
+            addCriterion("PURCHASE_PRICE in", values, "purchasePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceNotIn(List<BigDecimal> values) {
+            addCriterion("PURCHASE_PRICE not in", values, "purchasePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("PURCHASE_PRICE between", value1, value2, "purchasePrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasePriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("PURCHASE_PRICE not between", value1, value2, "purchasePrice");
+            return (Criteria) this;
+        }
+
         public Criteria andQuantityIsNull() {
             addCriterion("QUANTITY is null");
             return (Criteria) this;

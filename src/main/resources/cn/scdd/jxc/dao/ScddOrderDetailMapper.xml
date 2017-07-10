@@ -7,6 +7,7 @@
     <result column="GOODS_ID" jdbcType="INTEGER" property="goodsId" />
     <result column="DISCOUNT" jdbcType="DECIMAL" property="discount" />
     <result column="UNIT_PRICE" jdbcType="DECIMAL" property="unitPrice" />
+    <result column="PURCHASE_PRICE" jdbcType="DECIMAL" property="purchasePrice" />
     <result column="QUANTITY" jdbcType="INTEGER" property="quantity" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ID, ORDER_ID, GOODS_ID, DISCOUNT, UNIT_PRICE, QUANTITY
+    ID, ORDER_ID, GOODS_ID, DISCOUNT, UNIT_PRICE, PURCHASE_PRICE, QUANTITY
   </sql>
   <select id="selectByExample" parameterType="cn.scdd.jxc.entity.ScddOrderDetailExample" resultMap="BaseResultMap">
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="cn.scdd.jxc.entity.ScddOrderDetail">
     insert into scdd_order_detail (ID, ORDER_ID, GOODS_ID, 
-      DISCOUNT, UNIT_PRICE, QUANTITY
-      )
+      DISCOUNT, UNIT_PRICE, PURCHASE_PRICE, 
+      QUANTITY)
     values (#{id,jdbcType=INTEGER}, #{orderId,jdbcType=INTEGER}, #{goodsId,jdbcType=INTEGER}, 
-      #{discount,jdbcType=DECIMAL}, #{unitPrice,jdbcType=DECIMAL}, #{quantity,jdbcType=INTEGER}
-      )
+      #{discount,jdbcType=DECIMAL}, #{unitPrice,jdbcType=DECIMAL}, #{purchasePrice,jdbcType=DECIMAL}, 
+      #{quantity,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="cn.scdd.jxc.entity.ScddOrderDetail">
     insert into scdd_order_detail
@@ -125,6 +126,9 @@
       </if>
       <if test="unitPrice != null">
         UNIT_PRICE,
+      </if>
+      <if test="purchasePrice != null">
+        PURCHASE_PRICE,
       </if>
       <if test="quantity != null">
         QUANTITY,
@@ -145,6 +149,9 @@
       </if>
       <if test="unitPrice != null">
         #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="purchasePrice != null">
+        #{purchasePrice,jdbcType=DECIMAL},
       </if>
       <if test="quantity != null">
         #{quantity,jdbcType=INTEGER},
@@ -175,6 +182,9 @@
       <if test="record.unitPrice != null">
         UNIT_PRICE = #{record.unitPrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.purchasePrice != null">
+        PURCHASE_PRICE = #{record.purchasePrice,jdbcType=DECIMAL},
+      </if>
       <if test="record.quantity != null">
         QUANTITY = #{record.quantity,jdbcType=INTEGER},
       </if>
@@ -190,6 +200,7 @@
       GOODS_ID = #{record.goodsId,jdbcType=INTEGER},
       DISCOUNT = #{record.discount,jdbcType=DECIMAL},
       UNIT_PRICE = #{record.unitPrice,jdbcType=DECIMAL},
+      PURCHASE_PRICE = #{record.purchasePrice,jdbcType=DECIMAL},
       QUANTITY = #{record.quantity,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -210,6 +221,9 @@
       <if test="unitPrice != null">
         UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
       </if>
+      <if test="purchasePrice != null">
+        PURCHASE_PRICE = #{purchasePrice,jdbcType=DECIMAL},
+      </if>
       <if test="quantity != null">
         QUANTITY = #{quantity,jdbcType=INTEGER},
       </if>
@@ -222,6 +236,7 @@
       GOODS_ID = #{goodsId,jdbcType=INTEGER},
       DISCOUNT = #{discount,jdbcType=DECIMAL},
       UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+      PURCHASE_PRICE = #{purchasePrice,jdbcType=DECIMAL},
       QUANTITY = #{quantity,jdbcType=INTEGER}
     where ID = #{id,jdbcType=INTEGER}
   </update>
