@@ -118,7 +118,7 @@
 						<button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
 						<button type="reset" class="layui-btn layui-btn-primary">重置</button>
 						<a href="#" onclick="addTr();" class="layui-btn layui-btn-primary">新增商品</a>
-						<a href="${webRoot}/order/list" class="layui-btn layui-btn-primary">返回</a>
+						<a href="#" onclick="javascript:history.back(-1);" class="layui-btn layui-btn-primary">返回</a>
 					</div>
 				</div>
 			</form>
