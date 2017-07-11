@@ -59,6 +59,11 @@
 		</div>
 		<script type="text/javascript" src="${webRoot}/plugins/layui/layui.js"></script>
 		<script>
+			$("body").keydown(function() {
+			     if (event.keyCode == "13") {//默认回车的时候，查询
+			         $('#search').click();
+			     }
+			});
 			layui.config({
 				base: '${webRoot}/plugins/layui/modules/'
 			});
