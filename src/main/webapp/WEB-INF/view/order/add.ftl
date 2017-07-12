@@ -75,6 +75,12 @@
 						<input type="text" name="deliveryAddr" lay-verify="required" placeholder="请输入" value="${(order.deliveryAddr)!}" autocomplete="off" class="layui-input">
 					</div>
 				</div>
+				<div class="layui-form-item">
+					<label class="layui-form-label">明细总金额</label>
+					<div class="layui-input-inline">
+						<span id="totalVal" class="layui-form-label" style="color:red">${(order.amount)!}</span>
+					</div>
+				</div>
 				<fieldset class="layui-elem-field">
 					<legend>订单明细</legend>
 					<div class="layui-field-box">
@@ -100,9 +106,9 @@
 			                                </div>
 		                            	</div>
 									</td>
-									<td><input type="text" name="details[${orderDetail_index}].unitPrice" id="unitPrice" lay-verify="unitPrice" value="${(orderDetail.unitPrice?c)!}" /></td>
-									<td><input type="text" name="details[${orderDetail_index}].quantity" lay-verify="quantity" value="${(orderDetail.quantity?c)!}" /></td>
-									<td><input type="text" name="details[${orderDetail_index}].discount" value="${(orderDetail.discount?c)!}" /></td>
+									<td><input type="text" name="details[${orderDetail_index}].unitPrice" class='ipt_cls_unitPrice' id="unitPrice" lay-verify="unitPrice" value="${(orderDetail.unitPrice?c)!}" /></td>
+									<td><input type="text" name="details[${orderDetail_index}].quantity" class='ipt_cls_quantity' lay-verify="quantity" value="${(orderDetail.quantity?c)!}" /></td>
+									<td><input type="text" name="details[${orderDetail_index}].discount" class='ipt_cls_discount' value="${(orderDetail.discount?c)!}" /></td>
 									<td>
 										<a href="#" onClick="deleteTr(this);" class="layui-btn layui-btn-mini">删除</a>
 									</td>
@@ -227,7 +233,12 @@
 		        $.each($jQAutoComplete, function(index, item){
 		            new AutoComplete(item);
 		        });
-             
+             	//价格
+             	$(".ipt_cls_unitPrice").change(function(){sumValue()}); 
+             	//数量
+             	$(".ipt_cls_quantity").change(function(){sumValue()});
+             	//折扣
+             	$(".ipt_cls_discount").change(function(){sumValue()});
              	//会员自动补全
                  $('#keyword').autocomplete({
                      max: 10,    //列表里的条目数
@@ -265,9 +276,9 @@
              			"<input type='text' class='J-jQAutoComplete' data-autoparams='${webRoot}/sys/goods/find' value=''></input>" +
              			"<input type='text' style='display: none;' lay-verify='required' name='details[{orderDetail_index}].goodsId' id='code' value='' />" +
              			"</div></div></td>" +
-             			"<td><input type='text' name='details[{orderDetail_index}].unitPrice' id='unitPrice' lay-verify='unitPrice' value='' /></td>" +
-             			"<td><input type='text' name='details[{orderDetail_index}].quantity' lay-verify='quantity' value='' /></td>" +
-             			"<td><input type='text' name='details[{orderDetail_index}].discount' value='' /></td>" +
+             			"<td><input type='text'  name='details[{orderDetail_index}].unitPrice' class='ipt_cls_unitPrice' id='unitPrice' lay-verify='unitPrice' value='' /></td>" +
+             			"<td><input type='text' name='details[{orderDetail_index}].quantity' class='ipt_cls_quantity' lay-verify='quantity' value='' /></td>" +
+             			"<td><input type='text' name='details[{orderDetail_index}].discount' class='ipt_cls_discount' value='' /></td>" +
              			"<td><a href='#' onClick='deleteTr(this);' class='layui-btn layui-btn-mini'>删除</a></td></tr>";
              //新增一个商品
              function addTr() {
@@ -280,8 +291,32 @@
 			        $.each($jQAutoComplete, function(index, item){
 			            new AutoComplete(item);
 			        });
+			        //价格
+	             	$(".ipt_cls_unitPrice").change(function(){sumValue()}); 
+	             	//数量
+	             	$(".ipt_cls_quantity").change(function(){sumValue()});
+	             	//折扣
+	             	$(".ipt_cls_discount").change(function(){sumValue()});
 			        goodsIndex = goodsIndex + 1;
 				 }
+             }
+             
+             //计算总金额
+             function sumValue() {
+             	var sumVal = 0;
+             	$("#goods_table tr").each(function(){
+             		var price = $(".ipt_cls_unitPrice",this).val();
+             		var quantity = $(".ipt_cls_quantity",this).val();
+             		var discount = $(".ipt_cls_discount",this).val();
+             		if(price && quantity) {
+             			if(discount == '') {
+             				sumVal = sumVal + price*quantity;
+             			} else {
+             				sumVal = sumVal + price*quantity*discount;
+             			}
+             		}
+             	});
+             	$('#totalVal').text(sumVal);
              }
              
 			layui.use(['form', 'layedit', 'laydate'], function() {
