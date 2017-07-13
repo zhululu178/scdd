@@ -12,6 +12,15 @@ var navs = [{
 		"href": "order/list"
 	}]
 }, {
+	"title": "支出管理",
+	"icon": "fa-cubes",
+	"spread": false,
+	"children": [{
+		"title": "支出查询",
+		"icon": "&#xe641;",
+		"href": "payment/list"
+	}]
+}, {
 	"title": "系统管理",
 	"icon": "fa-address-book",
 	"href": "",
