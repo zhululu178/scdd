@@ -36,7 +36,10 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	public List<ScddPaymentSearchPage> searchByPayment(ScddPaymentSearchPage payment) {
-		return this.scddPaymentMapper.selectByPayment(payment);
+		List<ScddPaymentSearchPage> pageList = this.scddPaymentMapper.selectByPayment(payment);
+		ScddPaymentSearchPage pageSum = this.scddPaymentMapper.selectByPaymentSum(payment);		
+		pageList.add(pageSum);
+		return pageList;
 	}
 
 	public ScddPayment searchPaymentById(int id) {

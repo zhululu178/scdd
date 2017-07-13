@@ -34,4 +34,7 @@ public interface ScddPaymentMapper {
     int updateByPrimaryKey(ScddPayment record);
     
     List<ScddPaymentSearchPage> selectByPayment(ScddPaymentSearchPage payment);
+    
+    ScddPaymentSearchPage selectByPaymentSum(ScddPaymentSearchPage payment);
+    
 }

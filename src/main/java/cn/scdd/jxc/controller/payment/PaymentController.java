@@ -108,7 +108,9 @@ public class PaymentController extends BaseController {
 	@RequestMapping(value="/list")
 	public ModelAndView list(ScddPaymentSearchPage payment) {
 		ModelAndView modelAndView = new ModelAndView("payment/list");
+		List<ScddUser> userList = this.userService.searchAll();
 		modelAndView.addObject("payment", payment);
+		modelAndView.addObject("userList", userList);
 		return modelAndView;
 	}
 	

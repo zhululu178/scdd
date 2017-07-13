@@ -6,17 +6,26 @@
 	<body>
 		<div class="admin-main">
 			<form id="search_form">
+			
 			<div class="layui-form-item">
 				<div class="layui-inline">
 					<label class="layui-form-label">支出人</label>
-					<div class="layui-input-inline">
-						<input type="text" name="name" placeholder="请输入" value="${(goods.name)!}" class="layui-input"/>
+					<div class="layui-input-block">
+						<select lay-verify="required" name="userId">
+							<option value="">请选择</option>
+							<#if userList??>
+								<#list userList as usert>
+									<option value="${(usert.id)!}">${(usert.name)!}</option>
+								</#list>
+							</#if>
+						</select>
 					</div>
 				</div>
 				<div class="layui-inline">
-					<label class="layui-form-label">商品简称</label>
+					<label class="layui-form-label">支付日期</label>
 					<div class="layui-input-block">
-						<input type="text" name="shortName" placeholder="请输入" value="${(goods.shortName)!}" class="layui-input"/>
+						<input type="text" name="payDateStart" id="payDateStart" readonly placeholder="yyyy-mm-dd" value="<#if payment?? && payment.payDateStart??>${(payment.payDateStart?string("yyyy-MM-dd"))!}</#if>" autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})">至
+						<input type="text" name="payDateEnd" id="payDateEnd" readonly placeholder="yyyy-mm-dd" value="<#if payment?? && payment.payDateEnd??>${(payment.payDateEnd?string("yyyy-MM-dd"))!}</#if>" autocomplete="off" class="layui-input" onclick="layui.laydate({elem: this})">
 					</div>
 				</div>
 			</div>
@@ -64,7 +73,7 @@
 				base: '${webRoot}/plugins/layui/modules/'
 			});
 			var laypage;
-			layui.use(['laypage'], function() {laypage = layui.laypage;});
+			layui.use(['laypage', 'laydate'], function() {laypage = layui.laypage;laydate = layui.laydate;});
 			function page(curr){
 				$.ajax({
 					url: "${webRoot}/payment/search?pageNo=" + curr,

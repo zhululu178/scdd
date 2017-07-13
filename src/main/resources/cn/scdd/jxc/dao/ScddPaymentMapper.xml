@@ -317,7 +317,8 @@
     <result column="DELETE_FLAG" property="deleteFlag" jdbcType="CHAR" />
   </resultMap>
   <select id="selectByPayment" parameterType="cn.scdd.jxc.entity.ScddOrderSearchPage" resultMap="PageSearchResult">
-    select p.*, u.NAME USER_NAME, pt.ID PTID, pt.NAME PAYMENT_TYPE from scdd_payment p, scdd_payment_type pt, scdd_user u
+    select p.*, u.NAME USER_NAME, pt.ID PTID, pt.NAME PAYMENT_TYPE 
+    from scdd_payment p, scdd_payment_type pt, scdd_user u
 	where p.PAYMENT_TYPE_ID = pt.ID and p.USER_ID = u.ID and p.DELETE_FLAG = '0'
     <if test="paymentTypeId != null">
       and p.PAYMENT_TYPE_ID = #{paymentTypeId}
@@ -331,8 +332,9 @@
     order by p.CREATE_DATE desc
   </select>
   <select id="selectByPaymentSum" parameterType="cn.scdd.jxc.entity.ScddOrderSearchPage" resultMap="PageSearchResult">
-    select p.*, pt.ID PTID, pt.NAME from scdd_payment p, scdd_payment_type pt
-	where p.ID = pt.PARENT_ID and p.DELETE_FLAG = '0'
+    select count(1) USER_NAME, count(p.amount) AMOUNT
+    from scdd_payment p, scdd_payment_type pt, scdd_user u
+	where p.PAYMENT_TYPE_ID = pt.ID and p.USER_ID = u.ID and p.DELETE_FLAG = '0'
     <if test="paymentTypeId != null">
       and p.PAYMENT_TYPE_ID = #{paymentTypeId}
     </if>
